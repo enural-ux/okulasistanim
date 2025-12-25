@@ -33,21 +33,35 @@
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
         /* GÖRÜNÜR KAYDIRMA ÇUBUĞU (SCROLLBAR) */
-        /* Webkit (Chrome, Safari) */
+        * {
+            scrollbar-width: thin; 
+            scrollbar-color: #64748b #f1f5f9; 
+        }
+
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px !important; 
+            height: 8px !important; 
+            display: block !important; 
+            -webkit-appearance: none;
         }
+        
         ::-webkit-scrollbar-track {
-            background: transparent; 
+            background: #f1f5f9; 
+            border-radius: 4px;
         }
+        
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 3px;
+            background-color: #94a3b8; 
+            border-radius: 4px;
+            border: 2px solid #f1f5f9; 
         }
+        
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
+            background-color: #64748b; 
         }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none !important; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* Scrollable alanlar için yumuşak kaydırma */
         .scroll-area {
@@ -56,8 +70,6 @@
             overscroll-behavior-y: contain;
         }
 
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .tab-active { background-color: #f97316; color: white; border-color: #f97316; }
         .tab-inactive { background-color: white; color: #475569; border-color: #e2e8f0; }
     </style>
@@ -88,7 +100,7 @@
     <main class="flex-1 scroll-area p-6 bg-pattern relative">
         <h3 class="text-slate-500 font-bold text-xs uppercase mb-4 tracking-wider pl-1">Menü</h3>
 
-        <div class="grid grid-cols-2 gap-4 pb-32">
+        <div class="grid grid-cols-2 gap-4 pb-10">
             <!-- 1. Takvim -->
             <a href="https://calendar.google.com" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-blue-100"></div>
@@ -134,7 +146,7 @@
                 <span class="font-semibold text-sm text-slate-700 z-10 text-center">Kulüpler</span>
             </div>
 
-            <!-- 6. Ders Programı (LINK) -->
+            <!-- 6. Ders Programı -->
             <a href="https://drive.google.com/file/d/1smXhS_IllIUiIBE1cVlTl1dr93QM_-0s/view?usp=sharing" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-16 h-16 bg-pink-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-pink-100"></div>
                 <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-2xl z-10">
@@ -144,13 +156,13 @@
             </a>
 
             <!-- 7. Sınav Takvimleri -->
-            <a href="#" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-red-100"></div>
+            <div onclick="openFullPage('examCalendarPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 rounded-bl-full -mr-4 -mt-4"></div>
                 <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl z-10">
                     <i class="fa-solid fa-file-pen"></i>
                 </div>
                 <span class="font-semibold text-sm text-slate-700 z-10 text-center">Sınav Takvimleri</span>
-            </a>
+            </div>
 
             <!-- 8. Nöbetler -->
             <div onclick="openFullPage('dutyPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
@@ -206,23 +218,7 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 p-3 flex justify-around text-slate-400 shrink-0 z-20">
-        <div class="text-center cursor-pointer text-blue-600">
-            <i class="fa-solid fa-house text-xl"></i>
-            <div class="text-[10px] font-medium mt-1">Ana Sayfa</div>
-        </div>
-        <div class="text-center cursor-pointer hover:text-blue-600 transition" onclick="alert('Yakında: Öğretmenler arası mesajlaşma özelliği.')">
-            <i class="fa-solid fa-message text-xl"></i>
-            <div class="text-[10px] font-medium mt-1">Mesajlar</div>
-        </div>
-        <div class="text-center cursor-pointer hover:text-blue-600 transition" onclick="alert('Ayarlar paneli yapım aşamasında.')">
-            <i class="fa-solid fa-gear text-xl"></i>
-            <div class="text-[10px] font-medium mt-1">Ayarlar</div>
-        </div>
-    </footer>
-
-    <!-- Sınıf Listeleri Sayfası -->
+    <!-- Sınıf Listeleri Sayfası (GÜNCELLENDİ: GLOBAL ARAMA DESTEĞİ) -->
     <div id="sinifListesiPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
         <div class="bg-indigo-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
             <div class="flex items-center gap-4">
@@ -238,7 +234,7 @@
         
         <div id="filterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
             <div class="relative">
-                <input type="text" id="studentSearch" onkeyup="filterStudents()" placeholder="Öğrenci ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm">
+                <input type="text" id="studentSearch" onkeyup="filterStudents()" placeholder="Tüm okulda öğrenci ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm">
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
@@ -357,6 +353,63 @@
 
         <div class="flex-1 scroll-area relative bg-slate-100 p-4 pb-32">
             <div id="dutyListContainer" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- Sınav Takvimleri Sayfası (YENİ - TAM EKRAN) -->
+    <div id="examCalendarPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
+        <!-- Header -->
+        <div class="bg-red-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="closeFullPage('examCalendarPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h3 class="font-bold text-lg leading-tight">Sınav Takvimleri</h3>
+                    <p class="text-xs text-red-200">Sınıf seviyesi seçiniz</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 scroll-area relative bg-slate-100 p-6 flex flex-col justify-center">
+            <div class="grid grid-cols-1 gap-4 max-w-md mx-auto w-full">
+                <!-- 5. Sınıflar -->
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">5</div>
+                        <div class="font-bold text-slate-700 text-lg">5. Sınıflar</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
+                </a>
+
+                <!-- 6. Sınıflar -->
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">6</div>
+                        <div class="font-bold text-slate-700 text-lg">6. Sınıflar</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
+                </a>
+
+                <!-- 7. Sınıflar -->
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">7</div>
+                        <div class="font-bold text-slate-700 text-lg">7. Sınıflar</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
+                </a>
+
+                <!-- 8. Sınıflar -->
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">8</div>
+                        <div class="font-bold text-slate-700 text-lg">8. Sınıflar</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -520,6 +573,7 @@
         let currentView = 'classes';
         let currentPage = '';
         let currentDutyDay = 'Pazartesi';
+        let activeClassName = ""; // Sınıf filtresi için
 
         function openFullPage(pageId) {
             currentPage = pageId;
@@ -556,7 +610,7 @@
                 resetToClubGrid();
                 return;
             }
-            if ((currentView === 'students' || currentView === 'parents')) {
+            if ((currentView === 'students' || currentView === 'parents' || currentView === 'globalSearch')) {
                 if(pageId === 'sinifListesiPage') resetToClassGrid();
                 if(pageId === 'veliIletisimPage') resetToVeliClassGrid();
             } else {
@@ -768,22 +822,26 @@
 
         function resetToClassGrid() {
             currentView = 'classes';
+            activeClassName = "";
             document.getElementById('classGrid').classList.remove('hidden');
             document.getElementById('studentList').classList.add('hidden');
-            document.getElementById('filterSection').classList.add('hidden');
+            document.getElementById('filterSection').classList.remove('hidden');
             document.getElementById('pageTitle').textContent = "Sınıf Listeleri";
             document.getElementById('pageSubtitle').textContent = "Şube seçimi yapınız";
+            document.getElementById('studentSearch').value = ""; // Aramayı temizle
             renderClassGrid('classGrid', studentsData, showClassStudents);
         }
 
         function showClassStudents(className) {
             currentView = 'students';
+            activeClassName = className;
             document.getElementById('classGrid').classList.add('hidden');
             document.getElementById('studentList').classList.remove('hidden');
             document.getElementById('filterSection').classList.remove('hidden');
             document.getElementById('pageTitle').textContent = `${className} Sınıfı`;
             const count = studentsData.filter(s => s.class === className).length;
             document.getElementById('pageSubtitle').textContent = `${count} öğrenci listeleniyor`;
+            document.getElementById('studentSearch').value = ""; // Sınıf içine girince aramayı temizle
 
             const list = document.getElementById('studentList');
             const students = studentsData.filter(s => s.class === className).sort((a, b) => a.no - b.no);
@@ -888,11 +946,53 @@
 
         function filterStudents() {
             const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
-            const items = document.querySelectorAll('.student-item');
-            items.forEach(item => {
-                const name = item.getAttribute('data-name');
-                item.style.display = name.includes(searchTerm) ? 'table-row' : 'none';
-            });
+            
+            // Eğer arama boşsa ve global arama modundaysak, grid'i geri getir
+            if (searchTerm === "" && (currentView === 'classes' || currentView === 'globalSearch')) {
+                resetToClassGrid();
+                return;
+            }
+
+            // Eğer bir sınıfın içindeysek sadece o sınıfı filtrele
+            if (currentView === 'students' && activeClassName) {
+                const items = document.querySelectorAll('.student-item');
+                items.forEach(item => {
+                    const name = item.getAttribute('data-name');
+                    item.style.display = name.includes(searchTerm) ? 'table-row' : 'none';
+                });
+                return;
+            }
+
+            // GLOBAL ARAMA (Grid ekranındayken)
+            if (currentView === 'classes' || currentView === 'globalSearch') {
+                currentView = 'globalSearch';
+                document.getElementById('classGrid').classList.add('hidden');
+                document.getElementById('studentList').classList.remove('hidden');
+                document.getElementById('pageTitle').textContent = "Arama Sonuçları";
+                
+                const matches = studentsData.filter(s => s.name.toLowerCase().includes(searchTerm) || s.no.toString().includes(searchTerm));
+                document.getElementById('pageSubtitle').textContent = `${matches.length} öğrenci bulundu`;
+
+                const list = document.getElementById('studentList');
+                list.innerHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-max">
+                        <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-bold border-b border-slate-200 sticky top-0">
+                            <tr><th class="p-4">Sınıf</th><th class="p-4">No</th><th class="p-4">Adı Soyadı</th><th class="p-4">Danışman</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 bg-white">
+                            ${matches.map(s => `
+                            <tr class="hover:bg-indigo-50/30 transition">
+                                <td class="p-4"><span class="bg-indigo-100 text-indigo-700 font-bold px-2 py-1 rounded text-xs">${s.class}</span></td>
+                                <td class="p-4 font-mono font-bold text-slate-600">${s.no}</td>
+                                <td class="p-4 font-bold text-slate-800">${s.name}</td>
+                                <td class="p-4 text-sm text-slate-600">${s.advisor || '-'}</td>
+                            </tr>`).join('')}
+                        </tbody>
+                    </table>
+                    ${matches.length === 0 ? '<div class="p-8 text-center text-slate-400">Sonuç bulunamadı.</div>' : ''}
+                </div>`;
+            }
         }
 
         function filterParents() {
