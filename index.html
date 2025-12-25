@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Öğretmen Paneli</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Öğretmenim">
+    <meta name="theme-color" content="#1e293b">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Mobil uyumlu yükseklik ve kaydırma ayarları */
+        html, body {
+            height: 100%;
+            height: 100dvh; /* Dinamik viewport yüksekliği */
+            overflow: hidden; /* Ana sayfa kaymasın, iç kısımlar kaysın */
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bg-pattern { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
+        .app-card:active { transform: scale(0.96); transition: transform 0.1s; }
+        .modal-open { display: flex; animation: fadeIn 0.2s ease-out forwards; }
+        .full-page-enter { transform: translateX(0) !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        /* GÖRÜNÜR KAYDIRMA ÇUBUĞU (SCROLLBAR) */
+        /* Webkit (Chrome, Safari) */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Scrollable alanlar için yumuşak kaydırma */
+        .scroll-area {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .tab-active { background-color: #f97316; color: white; border-color: #f97316; }
+        .tab-inactive { background-color: white; color: #475569; border-color: #e2e8f0; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg relative z-10 shrink-0">
+        <div class="flex justify-between items-center mb-2">
+            <div>
+                <h2 class="text-slate-400 text-sm font-medium uppercase tracking-wider">Hoş Geldiniz</h2>
+                <h1 class="text-2xl font-bold">Sayın Öğretmenim</h1>
+            </div>
+            <div class="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center border-2 border-slate-600 shadow-inner">
+                <i class="fa-solid fa-user-tie text-xl text-slate-300"></i>
+            </div>
+        </div>
+        <div class="mt-4 flex items-center bg-slate-800/50 p-3 rounded-xl backdrop-blur-sm border border-slate-700/50">
+            <i class="fa-regular fa-clock text-blue-400 mr-3 text-lg"></i>
+            <div>
+                <div id="current-date" class="text-sm font-semibold text-white">Yükleniyor...</div>
+                <div id="current-day" class="text-xs text-slate-400">...</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 scroll-area p-6 bg-pattern relative">
+        <h3 class="text-slate-500 font-bold text-xs uppercase mb-4 tracking-wider pl-1">Menü</h3>
+
+        <div class="grid grid-cols-2 gap-4 pb-32">
+            <!-- 1. Takvim -->
+            <a href="https://calendar.google.com" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-blue-100"></div>
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Takvim</span>
+            </a>
+
+            <!-- 2. Sınıf Listeleri -->
+            <div onclick="openFullPage('sinifListesiPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-indigo-50 rounded-bl-full -mr-4 -mt-4"></div>
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-users-viewfinder"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Sınıf Listeleri</span>
+            </div>
+
+            <!-- 3. Veli-İletişim -->
+            <div onclick="openFullPage('veliIletisimPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-green-50 rounded-bl-full -mr-4 -mt-4"></div>
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Veli İletişim</span>
+            </div>
+
+            <!-- 4. Danışman Öğretmenler -->
+            <div onclick="openFullPage('advisorPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-teal-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-teal-100"></div>
+                <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Danışman Öğretmenler</span>
+            </div>
+
+            <!-- 5. Kulüpler -->
+            <div onclick="openFullPage('clubPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-fuchsia-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-fuchsia-100"></div>
+                <div class="w-12 h-12 bg-fuchsia-100 text-fuchsia-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-masks-theater"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Kulüpler</span>
+            </div>
+
+            <!-- 6. Ders Programı (LINK) -->
+            <a href="https://drive.google.com/file/d/1smXhS_IllIUiIBE1cVlTl1dr93QM_-0s/view?usp=sharing" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-pink-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-pink-100"></div>
+                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Ders Programı</span>
+            </a>
+
+            <!-- 7. Sınav Takvimleri -->
+            <a href="#" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-red-100"></div>
+                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-file-pen"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Sınav Takvimleri</span>
+            </a>
+
+            <!-- 8. Nöbetler -->
+            <div onclick="openFullPage('dutyPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-orange-50 rounded-bl-full -mr-4 -mt-4"></div>
+                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Nöbetler</span>
+            </div>
+
+            <!-- 9. SUB -->
+            <a href="#" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-slate-200 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-slate-300"></div>
+                <div class="w-12 h-12 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">SUB</span>
+            </a>
+
+            <!-- 10. PTC -->
+            <a href="#" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-violet-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-violet-100"></div>
+                <div class="w-12 h-12 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-handshake-simple"></i>
+                </div>
+                <span class="font-semibold text-sm text-slate-700 z-10 text-center">PTC</span>
+            </a>
+        </div>
+
+        <div onclick="toggleInstallGuide()" class="mt-4 bg-blue-600 text-white p-4 rounded-xl shadow-lg shadow-blue-200 flex items-center justify-between cursor-pointer mb-20">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-mobile-screen text-2xl"></i>
+                <div class="text-sm">
+                    <div class="font-bold">Uygulamayı Yükle</div>
+                    <div class="text-blue-100 text-xs">Telefonuna nasıl eklersin?</div>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right text-sm"></i>
+        </div>
+
+        <div id="installGuide" class="hidden mt-4 bg-white p-4 rounded-xl border border-slate-200 text-sm text-slate-600 shadow-sm mb-20">
+            <h4 class="font-bold text-slate-800 mb-2">iPhone (iOS) İçin:</h4>
+            <ol class="list-decimal list-inside space-y-1 text-xs">
+                <li>Safari tarayıcısında <i class="fa-solid fa-arrow-up-from-bracket"></i> (Paylaş) butonuna basın.</li>
+                <li>Aşağı kaydırıp <strong>"Ana Ekrana Ekle"</strong> seçeneğini bulun.</li>
+                <li>Sağ üstten "Ekle" diyerek tamamlayın.</li>
+            </ol>
+            <h4 class="font-bold text-slate-800 mt-3 mb-2">Android İçin:</h4>
+            <ol class="list-decimal list-inside space-y-1 text-xs">
+                <li>Chrome menüsüne (üç nokta) tıklayın.</li>
+                <li><strong>"Ana Ekrana Ekle"</strong> seçeneğine dokunun.</li>
+            </ol>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 p-3 flex justify-around text-slate-400 shrink-0 z-20">
+        <div class="text-center cursor-pointer text-blue-600">
+            <i class="fa-solid fa-house text-xl"></i>
+            <div class="text-[10px] font-medium mt-1">Ana Sayfa</div>
+        </div>
+        <div class="text-center cursor-pointer hover:text-blue-600 transition" onclick="alert('Yakında: Öğretmenler arası mesajlaşma özelliği.')">
+            <i class="fa-solid fa-message text-xl"></i>
+            <div class="text-[10px] font-medium mt-1">Mesajlar</div>
+        </div>
+        <div class="text-center cursor-pointer hover:text-blue-600 transition" onclick="alert('Ayarlar paneli yapım aşamasında.')">
+            <i class="fa-solid fa-gear text-xl"></i>
+            <div class="text-[10px] font-medium mt-1">Ayarlar</div>
+        </div>
+    </footer>
+
+    <!-- Sınıf Listeleri Sayfası -->
+    <div id="sinifListesiPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
+        <div class="bg-indigo-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="handleBackNavigation('sinifListesiPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-indigo-500 hover:bg-indigo-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h3 class="font-bold text-lg leading-tight" id="pageTitle">Sınıf Listeleri</h3>
+                    <p class="text-xs text-indigo-200" id="pageSubtitle">Şube seçimi yapınız</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="filterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+            <div class="relative">
+                <input type="text" id="studentSearch" onkeyup="filterStudents()" placeholder="Öğrenci ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 scroll-area relative bg-slate-100">
+            <div id="classGrid" class="grid grid-cols-2 gap-4 p-4 pb-32"></div>
+            <div id="studentList" class="hidden pb-32 bg-white min-h-full"></div>
+        </div>
+    </div>
+
+    <!-- Veli İletişim Sayfası -->
+    <div id="veliIletisimPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
+        <div class="bg-green-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="handleBackNavigation('veliIletisimPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h3 class="font-bold text-lg leading-tight" id="veliPageTitle">Veli İletişim</h3>
+                    <p class="text-xs text-green-200" id="veliPageSubtitle">Şube seçimi yapınız</p>
+                </div>
+            </div>
+        </div>
+        <div id="veliFilterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+            <div class="relative">
+                <input type="text" id="parentSearch" onkeyup="filterParents()" placeholder="Öğrenci veya veli ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-green-500 text-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 scroll-area relative bg-slate-100">
+            <div id="veliClassGrid" class="grid grid-cols-2 gap-4 p-4 pb-32"></div>
+            <div id="parentList" class="hidden pb-32 bg-white min-h-full"></div>
+        </div>
+    </div>
+
+    <!-- Danışman Öğretmen Sayfası -->
+    <div id="advisorPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
+        <div class="bg-teal-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="handleBackNavigation('advisorPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-teal-500 hover:bg-teal-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h3 class="font-bold text-lg leading-tight">Danışmanlar</h3>
+                    <p class="text-xs text-teal-200">2025-2026 Akademik Yılı</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 scroll-area relative bg-slate-100 p-4 pb-32">
+            <div id="advisorListContainer" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- KULÜPLER SAYFASI -->
+    <div id="clubPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
+        <div class="bg-fuchsia-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="handleBackNavigation('clubPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-fuchsia-500 hover:bg-fuchsia-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h3 class="font-bold text-lg leading-tight" id="clubPageTitle">Kulüpler</h3>
+                    <p class="text-xs text-fuchsia-200" id="clubPageSubtitle">2025-2026 Kulüp Listesi</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="clubFilterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+            <div class="relative">
+                <input type="text" id="clubStudentSearch" onkeyup="searchClubStudent()" placeholder="Öğrenci adı ile kulüp ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-fuchsia-500 text-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 scroll-area relative bg-slate-100">
+            <div id="clubGrid" class="grid grid-cols-2 gap-4 p-4 pb-32"></div>
+            <div id="clubDetailList" class="hidden pb-32 bg-white min-h-full"></div>
+        </div>
+    </div>
+
+    <!-- NÖBETLER SAYFASI -->
+    <div id="dutyPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
+        <div class="bg-orange-600 p-4 pt-12 pb-2 text-white shadow-md shrink-0">
+            <div class="flex items-center gap-4 mb-4">
+                <button onclick="handleBackNavigation('dutyPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-orange-500 hover:bg-orange-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h3 class="font-bold text-lg leading-tight">Nöbet Çizelgesi</h3>
+                    <p class="text-xs text-orange-200">2025-2026 Eğitim Öğretim Yılı</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between gap-1 overflow-x-auto pb-1 hide-scrollbar">
+                <button onclick="renderDutySchedule('Pazartesi')" id="tab-Pazartesi" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-orange-500 text-white border-b-4 border-orange-700">Pazartesi</button>
+                <button onclick="renderDutySchedule('Salı')" id="tab-Salı" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Salı</button>
+                <button onclick="renderDutySchedule('Çarşamba')" id="tab-Çarşamba" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Çarşamba</button>
+                <button onclick="renderDutySchedule('Perşembe')" id="tab-Perşembe" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Perşembe</button>
+                <button onclick="renderDutySchedule('Cuma')" id="tab-Cuma" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Cuma</button>
+            </div>
+        </div>
+
+        <div id="dutyFilterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+            <div class="relative">
+                <input type="text" id="dutyTeacherSearch" onkeyup="searchDutyTeacher()" placeholder="Öğretmen adı ile nöbet ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-orange-500 text-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 scroll-area relative bg-slate-100 p-4 pb-32">
+            <div id="dutyListContainer" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- Modals (Ders Programı Artık Link Olduğu İçin Kaldırıldı) -->
+    <div id="programModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="bg-pink-600 p-4 text-white flex justify-between items-center">
+                <h3 class="font-bold"><i class="fa-solid fa-clock mr-2"></i>Ders Programı</h3>
+                <button onclick="closeModal('programModal')" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto text-center">
+                <p>Eski içerik...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- VERİTABANLARI ---
+        const studentsData = [
+            { no: 217, class: "5/A", name: "Gül Altın", advisor: "Burak Korkut", email: "galtin@isev.k12.tr", language: "Fransızca" },
+            { no: 378, class: "5/A", name: "Doruk Ulukaya", advisor: "Burak Korkut", email: "dulukaya@isev.k12.tr", language: "Fransızca" },
+            { no: 389, class: "5/A", name: "Emir Metintürk", advisor: "Burak Korkut", email: "emetinturk@isev.k12.tr", language: "Fransızca" },
+            { no: 438, class: "5/A", name: "Ela Yücel", advisor: "Ece Özaydınlı", email: "eyucel@isev.k12.tr", language: "Almanca" },
+            { no: 501, class: "5/A", name: "Milly Jaklin Şaul", advisor: "Burak Korkut", email: "msaul@isev.k12.tr", language: "Fransızca" },
+            { no: 520, class: "5/A", name: "Anatolıa Yorgancıoğlu", advisor: "Ece Özaydınlı", email: "ayorgancioglu@isev.k12.tr", language: "Fransızca" },
+            { no: 530, class: "5/A", name: "Eymen Alhat", advisor: "Ece Özaydınlı", email: "ealhat@isev.k12.tr", language: "Fransızca" },
+            { no: 537, class: "5/A", name: "Lara Yıldırım", advisor: "Ece Özaydınlı", email: "lyildirim@isev.k12.tr", language: "Fransızca" },
+            { no: 982, class: "5/A", name: "Alp Kerem Ersoy", advisor: "Burak Korkut", email: "akersoy@isev.k12.tr", language: "Almanca" },
+            { no: 26, class: "8/D", name: "Aylin İşçimenler", advisor: "Ebru Akın", email: "ayiscimenler@isev.k12.tr", language: "" },
+            { no: 33, class: "8/D", name: "Ada Levi", advisor: "Duygu Duman", email: "alevi@isev.k12.tr", language: "" },
+            { no: 95, class: "8/D", name: "Doğa Aslanlı", advisor: "Ebru Akın", email: "daslanli@isev.k12.tr", language: "" },
+            { no: 173, class: "8/D", name: "Erin Korkuter", advisor: "Duygu Duman", email: "erinkorkuter@isev.k12.tr", language: "" },
+            { no: 224, class: "8/D", name: "Sarp Üstünkarlı", advisor: "Duygu Duman", email: "", language: "" },
+            { no: 362, class: "8/D", name: "Orhan Kaya Berberoğlu", advisor: "Duygu Duman", email: "", language: "" },
+            { no: 477, class: "8/D", name: "Nilda Taşan", advisor: "Ebru Akın", email: "", language: "" },
+            { no: 887, class: "8/D", name: "Sarp Ayır", advisor: "Ebru Akın", email: "", language: "" },
+            { no: 957, class: "8/D", name: "Ayhan Er", advisor: "Duygu Duman", email: "", language: "" },
+            { no: 1065, class: "8/D", name: "Hüseyin Erol Uyar", advisor: "Ebru Akın", email: "", language: "" },
+            { no: 1572, class: "8/D", name: "Ece Nalbantoğlu", advisor: "Duygu Duman", email: "", language: "" },
+            { no: 601, class: "5/B", name: "Can Yılmaz", advisor: "Ayşe Yılmaz", email: "cyilmaz@isev.k12.tr", language: "Almanca" },
+            { no: 701, class: "6/A", name: "Burak Yılmaz", advisor: "Metin Tekin", email: "byilmaz@isev.k12.tr", language: "İspanyolca" },
+            { no: 801, class: "7/A", name: "Hande Yener", advisor: "Sezen Aksu", email: "hyener@isev.k12.tr", language: "Fransızca" },
+            { no: 901, class: "8/A", name: "Nihat Kahveci", advisor: "Şenol Güneş", email: "nkahveci@isev.k12.tr", language: "İspanyolca" }
+        ];
+
+        const parentsData = [
+            { class: "5/A", no: 217, studentName: "GÜL ALTIN", parentName: "GÜLÖREN TUNCA", relation: "Anne", phone: "5334627129", email: "guloren.tunca@hotmail.com" },
+            { class: "5/A", no: 378, studentName: "DORUK ULUKAYA", parentName: "ECE ULUKAYA", relation: "Anne", phone: "5335232216", email: "ecesen.ulukaya@gmail.com" },
+            { class: "5/A", no: 389, studentName: "EMİR METİNTÜRK", parentName: "BERNA METİNTÜRK", relation: "Anne", phone: "5322767871", email: "berna.yuksel@wyndhamgrandizmir.com" },
+            { class: "5/A", no: 438, studentName: "ELA YÜCEL", parentName: "ELDEM ESEN YÜCEL", relation: "Anne", phone: "5333675428", email: "eldemesen@hotmail.com" },
+            { class: "5/A", no: 501, studentName: "MİLLY JAKLİN ŞAUL", parentName: "ESRA ESKİNAZİ ŞAUL", relation: "Anne", phone: "5325492486", email: "esraeskinazisaul@gmail.com" },
+            { class: "5/A", no: 520, studentName: "ANATOLIA YORGANCIOĞLU", parentName: "MEGAN YORGANCIOĞLU", relation: "Anne", phone: "5327337800", email: "mperrylee@gmail.com" },
+            { class: "5/A", no: 530, studentName: "EYMEN ALHAT", parentName: "NAZAN ALHAT", relation: "Anne", phone: "5333976198", email: "alhatnazan@gmail.com" },
+            { class: "8/D", no: 26, studentName: "AYLİN İŞÇİMENLER", parentName: "GÖZDE İŞÇİMENLER", relation: "Anne", phone: "5325111617", email: "gozde@iscimenler.com.tr" },
+            { class: "8/D", no: 33, studentName: "ADA LEVİ", parentName: "ÖZGE ÇİM LEVİ", relation: "Anne", phone: "5323557198", email: "ozge.cim@hotmail.com" },
+            { class: "8/D", no: 95, studentName: "DOĞA ASLANLI", parentName: "TUĞÇE ASLANLI", relation: "Anne", phone: "5058275621", email: "tugce.aslanli@gmail.com" },
+            { class: "8/D", no: 173, studentName: "ERİN KORKUTER", parentName: "ZEYNEP KORKUTER", relation: "Anne", phone: "5333824079", email: "zeynepguldas@hotmail.com" },
+            { class: "8/D", no: 224, studentName: "SARP ÜSTÜNKARLI", parentName: "ZEYNEP ÜSTÜNKARLI", relation: "Anne", phone: "5322753716", email: "zeynepustunkarli@gmail.com" },
+            { class: "8/D", no: 362, studentName: "ORHAN KAYA BERBEROĞLU", parentName: "MERVE BERBEROĞLU", relation: "Anne", phone: "5333811035", email: "mberberoglu37@gmail.com" },
+            { class: "8/D", no: 477, studentName: "NİLDA TAŞAN", parentName: "SEREN ÖZMEHMET TAŞAN", relation: "Anne", phone: "5333327375", email: "seren.ozmehmet@deu.edu.tr" },
+            { class: "8/D", no: 887, studentName: "SARP AYIR", parentName: "Özgür AYIR", relation: "Baba", phone: "5326678191", email: "ozgurayir@hotmail.com" },
+            { class: "8/D", no: 95, studentName: "AYHAN ER", parentName: "SEVAL ER", relation: "Anne", phone: "5348841402", email: "sevaler4@hotmail.com" },
+            { class: "8/D", no: 1065, studentName: "HÜSEYİN EROL UYAR", parentName: "ÇİĞDEM GÖZDE UYAR", relation: "Anne", phone: "5322617952", email: "gozdealaca@yahoo.com" },
+            { class: "8/D", no: 1572, studentName: "ECE NALBANTOĞLU", parentName: "İSMAİL BORA NALBANTOĞLU", relation: "Baba", phone: "5322749392", email: "ibnalbantoglu@hotmail.com" }
+        ];
+
+        const advisorsData = [
+            { class: "5/A", teachers: ["Burak KORKUT", "Ece ÖZAYDINLI"] },
+            { class: "5/B", teachers: ["Şehnaz ŞAŞZADE", "Meltem AKINCI"] },
+            { class: "5/C", teachers: ["İlayda ARZUMAN GÖZ", "İpek ÇAKMAK"] },
+            { class: "5/D", teachers: ["İpek ÖZKAN", "Sırma GÖKNUR"] },
+            { class: "6/A", teachers: ["Onur DALKIRAN", "Nihan AKKUŞ"] },
+            { class: "6/B", teachers: ["Banu YAZGANOĞLU", "Mert ACAR", "Duygu HEPTEPE"] },
+            { class: "6/C", teachers: ["Filiz UĞUR", "Mısra Şevin ÖZKAN"] },
+            { class: "7/A", teachers: ["Hüseyin KAVDIR", "Gülçin ACARSOY"] },
+            { class: "7/B", teachers: ["Deniz ÖZÇIKRIKCI", "Esra NURAY"] },
+            { class: "7/C", teachers: ["Buse ALSOY", "Ezgi KURTCU"] },
+            { class: "8/A", teachers: ["Nihan ÖZCAN", "Emre O.KOCAMAN"] },
+            { class: "8/B", teachers: ["Sezgin AKKAYA", "Gül OKAN"] },
+            { class: "8/C", teachers: ["Ceylan İŞÇİ", "Can Emrah BAŞ"] },
+            { class: "8/D", teachers: ["Ebru AKIN", "Duygu DUMAN"] }
+        ];
+
+        const clubAssignments = [
+            { class: "5/A", no: 378, name: "DORUK ULUKAYA", club: "Atletizm", location: "Açık Kort - 6/C", teacher: "Buse Alsoy" },
+            { class: "5/A", no: 982, name: "ALP KEREM ERSOY", club: "Atletizm", location: "Açık Kort - 6/C", teacher: "Buse Alsoy" },
+            { class: "5/D", no: 32, name: "DENİZ GAZEL", club: "Atletizm", location: "Açık Kort - 6/C", teacher: "Buse Alsoy" },
+            { class: "5/D", no: 531, name: "ALP ALİ ŞİYVE", club: "Atletizm", location: "Açık Kort - 6/C", teacher: "Buse Alsoy" },
+            { class: "5/D", no: 209, name: "DEFNE IRMAK KIZILTEPE", club: "Atletizm", location: "Açık Kort - 6/C", teacher: "Buse Alsoy" },
+            { class: "5/D", no: 1279, name: "DERİN KORKUSUZ", club: "Atletizm", location: "Açık Kort - 6/C", teacher: "Buse Alsoy" },
+            { class: "6/C", no: 475, name: "MİRA ERDOĞAN", club: "Atletizm", location: "Açık Kort - 6/C", teacher: "Buse Alsoy" },
+            { class: "7/A", no: 396, name: "HALİL KEREM ŞAHİN", club: "Futbol", location: "Açık Kort - 6/A", teacher: "Burak Korkut" },
+            { class: "7/A", no: 430, name: "ALİ VERYERİ", club: "Futbol", location: "Açık Kort - 6/A", teacher: "Burak Korkut" },
+            { class: "7/A", no: 188, name: "PARS SÖNMEZ", club: "Futbol", location: "Açık Kort - 6/A", teacher: "Burak Korkut" },
+            { class: "7/A", no: 276, name: "LEVENT GÜNEL", club: "JMUN", location: "7/C", teacher: "Ebru Akın-Mısra Şevin Özkan" },
+            { class: "7/B", no: 446, name: "EMİR EMRE CİHANGİR", club: "Futbol", location: "Açık Kort - 6/A", teacher: "Burak Korkut" },
+            { class: "8/C", no: 353, name: "DORUK ALŞAN", club: "Basketbol", location: "Shepard Hall", teacher: "Emre O.Kocaman" },
+            { class: "8/C", no: 1060, name: "AREL GABAY", club: "Futbol", location: "Açık Kort - 6/B", teacher: "Sezgin Akkaya" },
+            { class: "8/D", no: 33, name: "ADA LEVİ", club: "DJ ve SEV Radyo", location: "5/C", teacher: "Ceylan İşçi" },
+            { class: "8/D", no: 95, name: "DOĞA ASLANLI", club: "DJ ve SEV Radyo", location: "5/C", teacher: "Ceylan İşçi" },
+            { class: "8/D", no: 477, name: "NİLDA TAŞAN", club: "Story Studio", location: "Maker Atölyesi", teacher: "İlayda Arzuman" },
+            { class: "8/D", no: 224, name: "SARP ÜSTÜNKARLI", club: "JMUN", location: "7/C", teacher: "Ebru Akın" },
+            { class: "8/C", no: 490, name: "BELEN DOĞAN", club: "Voleybol", location: "Shepard Hall", teacher: "İlayda A.Göz" },
+            { class: "8/C", no: 508, name: "NİL ERBAYKENT", club: "Voleybol", location: "Shepard Hall", teacher: "İlayda A.Göz" }
+        ];
+
+        const dutyData = {
+            "Pazartesi": [
+                { area: "Öğlen Yemekhane", teacher: "Hüsna Kayafoğlu - Gülçim Gürpınar" },
+                { area: "Öğlen/Lunch Sahalar", teacher: "İlayda Arzuman Göz (Yeni Bina Bahçe)" },
+                { area: "Ağaçlı Yol", teacher: "Yeliz Aytaç (08.20-08.40) - Yeliz Aytaç (15.55-16.15)" },
+                { area: "Giriş Kat Koridor", teacher: "İpek Çakmak" },
+                { area: "1. Kat Koridor", teacher: "Ceylan İşçi" },
+                { area: "Öğle Arası Ağaçlı Yol", teacher: "Duygu Heptepe" },
+                { area: "6. Sınıf Bahçe", teacher: "Buse Orhan" },
+                { area: "6. Sınıf Bina ve Kantin", teacher: "Onur Dalkıran" }
+            ],
+            "Salı": [
+                { area: "Öğlen Yemekhane", teacher: "Hüsna Kayafoğlu - Göker Gülçür" },
+                { area: "Öğlen/Lunch Sahalar", teacher: "Nöbetçi Yok" },
+                { area: "Ağaçlı Yol", teacher: "Ebru Akın (08.20-08.40) - Mert Acar (15.55-16.15)" },
+                { area: "Giriş Kat Koridor", teacher: "Şehnaz Şaşzade" },
+                { area: "1. Kat Koridor", teacher: "İpek Çakmak" },
+                { area: "Öğle Arası Ağaçlı Yol", teacher: "Mert Acar" },
+                { area: "6. Sınıf Bahçe", teacher: "Buse Orhan" },
+                { area: "6. Sınıf Bina ve Kantin", teacher: "Banu Şahoğlu" }
+            ],
+            "Çarşamba": [
+                { area: "Öğlen Yemekhane", teacher: "Filiz Uğur - Yeşim Şamar Yılmaz" },
+                { area: "Öğlen/Lunch Sahalar", teacher: "İlayda Arzuman Göz - Burak Korkut" },
+                { area: "Ağaçlı Yol", teacher: "Ceylan İşçi (08.20-08.40) - Hüsna Kayafoğlu (15.55-16.15)" },
+                { area: "Giriş Kat Koridor", teacher: "Neal Cooke (08.20-13.00) - Meltem Akıncı (13.00-16.15)" },
+                { area: "1. Kat Koridor", teacher: "Ebru Akın" },
+                { area: "Öğle Arası Ağaçlı Yol", teacher: "Duygu Heptepe" },
+                { area: "6. Sınıf Bahçe", teacher: "Buse Orhan" },
+                { area: "6. Sınıf Bina ve Kantin", teacher: "Onur Dalkıran" }
+            ],
+            "Perşembe": [
+                { area: "Öğlen Yemekhane", teacher: "Gülçim Gürpınar - Göker Gülçür" },
+                { area: "Öğlen/Lunch Sahalar", teacher: "İlayda Arzuman Göz (Parsons) - Buse Alsoy (Yeni Bina)" },
+                { area: "Ağaçlı Yol", teacher: "Şehnaz Şaşzade (08.20-08.40) - Mert Acar (15.55-16.15)" },
+                { area: "Giriş Kat Koridor", teacher: "Esra Nuray" },
+                { area: "1. Kat Koridor", teacher: "Duygu Duman (08.20-13.00) - Filiz Uğur (13.00-16.15)" },
+                { area: "Öğle Arası Ağaçlı Yol", teacher: "Neal Cooke" },
+                { area: "6. Sınıf Bahçe", teacher: "Buse Orhan" },
+                { area: "6. Sınıf Bina ve Kantin", teacher: "Banu Şahoğlu" }
+            ],
+            "Cuma": [
+                { area: "Öğlen Yemekhane", teacher: "Buse Alsoy - Yeşim Şamar Yılmaz" },
+                { area: "Öğlen/Lunch Sahalar", teacher: "İlayda Arzuman Göz - Burak Korkut" },
+                { area: "Ağaçlı Yol", teacher: "İpek Özkan (08.20-08.40) - Bryn Harley (15.55-16.15)" },
+                { area: "Giriş Kat Koridor", teacher: "Meltem Akıncı (08.20-13.00) - Esra Nuray (13.00-16.15)" },
+                { area: "1. Kat Koridor", teacher: "İpek Özkan" },
+                { area: "Öğle Arası Ağaçlı Yol", teacher: "Duygu Duman - Neal Cooke" },
+                { area: "6. Sınıf Bahçe", teacher: "Buse Orhan" },
+                { area: "6. Sınıf Bina ve Kantin", teacher: "Banu Şahoğlu" }
+            ]
+        };
+
+        // LOGIC & NAVIGATION
+        let currentView = 'classes';
+        let currentPage = '';
+        let currentDutyDay = 'Pazartesi';
+
+        function openFullPage(pageId) {
+            currentPage = pageId;
+            const page = document.getElementById(pageId);
+            page.classList.remove('hidden');
+            setTimeout(() => {
+                page.classList.add('full-page-enter');
+                page.classList.remove('translate-x-full');
+            }, 10);
+            
+            // Sayfa Yükleme Mantıkları
+            if(pageId === 'sinifListesiPage') resetToClassGrid();
+            if(pageId === 'veliIletisimPage') resetToVeliClassGrid();
+            if(pageId === 'advisorPage') renderAdvisorList();
+            if(pageId === 'clubPage') resetToClubGrid();
+            if(pageId === 'dutyPage') renderDutySchedule('Pazartesi'); // Varsayılan Pazartesi
+        }
+
+        function closeFullPage(pageId) {
+            const page = document.getElementById(pageId);
+            page.classList.remove('full-page-enter');
+            page.classList.add('translate-x-full');
+            setTimeout(() => {
+                page.classList.add('hidden');
+            }, 300);
+        }
+
+        function handleBackNavigation(pageId) {
+            if (pageId === 'advisorPage' || pageId === 'dutyPage') {
+                closeFullPage(pageId);
+                return;
+            }
+            if (pageId === 'clubPage' && currentView === 'clubStudents') {
+                resetToClubGrid();
+                return;
+            }
+            if ((currentView === 'students' || currentView === 'parents')) {
+                if(pageId === 'sinifListesiPage') resetToClassGrid();
+                if(pageId === 'veliIletisimPage') resetToVeliClassGrid();
+            } else {
+                closeFullPage(pageId);
+            }
+        }
+
+        // --- KULÜP SAYFASI FONKSİYONLARI ---
+        function resetToClubGrid() {
+            currentView = 'clubs';
+            document.getElementById('clubGrid').classList.remove('hidden');
+            document.getElementById('clubDetailList').classList.add('hidden');
+            document.getElementById('clubPageTitle').textContent = "Kulüpler";
+            document.getElementById('clubPageSubtitle').textContent = "2025-2026 Kulüp Listesi";
+            document.getElementById('clubStudentSearch').value = ""; 
+            renderClubs();
+        }
+
+        function renderClubs() {
+            const container = document.getElementById('clubGrid');
+            container.innerHTML = "";
+            const uniqueClubs = [...new Set(clubAssignments.map(item => item.club))].sort();
+
+            uniqueClubs.forEach(clubName => {
+                const clubInfo = clubAssignments.find(c => c.club === clubName);
+                const studentCount = clubAssignments.filter(c => c.club === clubName).length;
+
+                const card = document.createElement('div');
+                card.className = "bg-white border-2 border-fuchsia-100 rounded-2xl p-5 shadow-sm active:scale-95 transition cursor-pointer flex flex-col gap-2";
+                card.onclick = () => showClubDetails(clubName);
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-1">
+                        <div class="w-10 h-10 rounded-full bg-fuchsia-100 flex items-center justify-center text-fuchsia-600"><i class="fa-solid fa-people-group"></i></div>
+                        <span class="text-xs font-bold bg-fuchsia-50 text-fuchsia-600 px-2 py-1 rounded-lg">${studentCount} Öğr.</span>
+                    </div>
+                    <div class="font-bold text-slate-800 text-lg leading-tight">${clubName}</div>
+                    <div class="text-xs text-slate-500 flex flex-col gap-0.5 mt-auto">
+                        <div class="flex items-center gap-1"><i class="fa-solid fa-chalkboard-user text-fuchsia-400"></i> ${clubInfo.teacher}</div>
+                        <div class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-fuchsia-400"></i> ${clubInfo.location}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function showClubDetails(clubName) {
+            currentView = 'clubStudents';
+            document.getElementById('clubGrid').classList.add('hidden');
+            document.getElementById('clubDetailList').classList.remove('hidden');
+            document.getElementById('clubPageTitle').textContent = clubName;
+            const students = clubAssignments.filter(c => c.club === clubName).sort((a,b) => a.class.localeCompare(b.class));
+            document.getElementById('clubPageSubtitle').textContent = `${students.length} öğrenci listeleniyor`;
+
+            const list = document.getElementById('clubDetailList');
+            list.innerHTML = `
+                <div class="divide-y divide-slate-100 border-t border-slate-100">
+                    ${students.map(s => `
+                        <div class="p-4 bg-white hover:bg-fuchsia-50 transition flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-sm border border-slate-200">${s.class}</div>
+                                <div><div class="font-bold text-slate-800">${s.name}</div><div class="text-xs text-slate-400 font-mono">#${s.no}</div></div>
+                            </div>
+                        </div>`).join('')}
+                </div>`;
+            document.querySelector('#clubPage .scroll-area').scrollTop = 0;
+        }
+
+        function searchClubStudent() {
+            const term = document.getElementById('clubStudentSearch').value.toLowerCase();
+            const container = document.getElementById('clubGrid');
+            const listContainer = document.getElementById('clubDetailList');
+            if(term.length === 0) { resetToClubGrid(); return; }
+
+            container.classList.add('hidden');
+            listContainer.classList.remove('hidden');
+            
+            const matches = clubAssignments.filter(s => s.name.toLocaleLowerCase('tr').includes(term));
+            document.getElementById('clubPageTitle').textContent = "Arama Sonuçları";
+            document.getElementById('clubPageSubtitle').textContent = `${matches.length} kayıt bulundu`;
+
+            if(matches.length === 0) {
+                listContainer.innerHTML = `<div class="p-10 text-center text-slate-400 flex flex-col items-center gap-2"><i class="fa-solid fa-circle-question text-3xl opacity-50"></i><span>Öğrenci bulunamadı.</span></div>`;
+            } else {
+                listContainer.innerHTML = `
+                    <div class="p-4 space-y-3">
+                        ${matches.map(s => `
+                            <div class="bg-white p-4 rounded-xl border border-fuchsia-100 shadow-sm">
+                                <div class="flex justify-between items-start">
+                                    <div><div class="font-bold text-slate-800 text-lg">${s.name}</div><div class="text-sm text-slate-500">${s.class} - #${s.no}</div></div>
+                                    <span class="bg-fuchsia-100 text-fuchsia-700 text-xs font-bold px-2 py-1 rounded">Bulundu</span>
+                                </div>
+                                <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-2 text-fuchsia-600 font-semibold"><i class="fa-solid fa-masks-theater"></i> ${s.club}</div>
+                                    <button onclick="showClubDetails('${s.club}')" class="text-xs bg-slate-100 px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-200">Listeye Git</button>
+                                </div>
+                            </div>`).join('')}
+                    </div>`;
+            }
+        }
+
+        // --- NÖBET FONKSİYONLARI ---
+        function renderDutySchedule(day) {
+            currentDutyDay = day;
+            document.getElementById('dutyTeacherSearch').value = ""; // Tab değişince aramayı temizle
+
+            // Tab Aktifliği
+            const days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma'];
+            days.forEach(d => {
+                const btn = document.getElementById(`tab-${d}`);
+                if (d === day) {
+                    btn.className = "flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-orange-500 text-white border-b-4 border-orange-700 shadow-sm";
+                } else {
+                    btn.className = "flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-orange-400/30 text-orange-100 hover:bg-orange-400/50 border-b-4 border-transparent";
+                }
+            });
+
+            const container = document.getElementById('dutyListContainer');
+            const data = dutyData[day];
+
+            if (!data) {
+                container.innerHTML = `<div class="p-10 text-center text-slate-400">Veri bulunamadı.</div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(item => `
+                <div class="bg-white p-4 rounded-xl border border-orange-100 shadow-sm flex flex-col gap-2">
+                    <div class="flex items-center gap-2 text-orange-600 font-bold text-sm uppercase tracking-wide">
+                        <i class="fa-solid fa-map-pin"></i>
+                        ${item.area}
+                    </div>
+                    <div class="text-slate-800 font-medium pl-6 text-sm">
+                        ${item.teacher}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchDutyTeacher() {
+            const term = document.getElementById('dutyTeacherSearch').value.toLowerCase();
+            const container = document.getElementById('dutyListContainer');
+            
+            if (term.length === 0) {
+                renderDutySchedule(currentDutyDay);
+                return;
+            }
+
+            let html = '';
+            const days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma'];
+            let found = false;
+
+            days.forEach(day => {
+                const dayData = dutyData[day];
+                if (dayData) {
+                    dayData.forEach(item => {
+                        if (item.teacher.toLowerCase().includes(term)) {
+                            found = true;
+                            const highlightedTeacher = item.teacher.replace(new RegExp(term, "gi"), (match) => `<span class="bg-yellow-200 text-slate-900">${match}</span>`);
+
+                            html += `
+                                <div class="bg-white p-4 rounded-xl border border-orange-100 shadow-sm flex flex-col gap-2 relative overflow-hidden">
+                                    <div class="absolute top-0 right-0 bg-orange-100 text-orange-600 text-[10px] font-bold px-3 py-1 rounded-bl-xl shadow-sm">
+                                        ${day}
+                                    </div>
+                                    <div class="flex items-center gap-2 text-orange-600 font-bold text-sm uppercase tracking-wide pr-10">
+                                        <i class="fa-solid fa-map-pin"></i>
+                                        ${item.area}
+                                    </div>
+                                    <div class="text-slate-800 font-medium pl-6 text-sm">
+                                        ${highlightedTeacher}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+            });
+
+            if (!found) {
+                html = `<div class="p-10 text-center text-slate-400 flex flex-col items-center gap-2"><i class="fa-solid fa-circle-question text-3xl opacity-50"></i><span>Kayıt bulunamadı.</span></div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // --- DİĞER FONKSİYONLAR ---
+        function renderAdvisorList() {
+            const container = document.getElementById('advisorListContainer');
+            container.innerHTML = advisorsData.map(item => `
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 flex items-center gap-4">
+                    <div class="w-14 h-14 bg-teal-50 rounded-full flex flex-col items-center justify-center text-teal-700 font-bold border border-teal-100 shrink-0">
+                        <span class="text-xl leading-none">${item.class.split('/')[0]}</span>
+                        <span class="text-xs leading-none mt-0.5 opacity-70">/${item.class.split('/')[1]}</span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="text-[10px] uppercase font-bold text-slate-400 tracking-wide mb-1">Sınıf Danışmanları</div>
+                        <div class="space-y-1">
+                            ${item.teachers.map(teacher => `
+                                <div class="flex items-center gap-2 text-slate-700 font-medium text-sm">
+                                    <i class="fa-solid fa-user-check text-teal-500 text-xs"></i>
+                                    ${teacher}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function resetToClassGrid() {
+            currentView = 'classes';
+            document.getElementById('classGrid').classList.remove('hidden');
+            document.getElementById('studentList').classList.add('hidden');
+            document.getElementById('filterSection').classList.add('hidden');
+            document.getElementById('pageTitle').textContent = "Sınıf Listeleri";
+            document.getElementById('pageSubtitle').textContent = "Şube seçimi yapınız";
+            renderClassGrid('classGrid', studentsData, showClassStudents);
+        }
+
+        function showClassStudents(className) {
+            currentView = 'students';
+            document.getElementById('classGrid').classList.add('hidden');
+            document.getElementById('studentList').classList.remove('hidden');
+            document.getElementById('filterSection').classList.remove('hidden');
+            document.getElementById('pageTitle').textContent = `${className} Sınıfı`;
+            const count = studentsData.filter(s => s.class === className).length;
+            document.getElementById('pageSubtitle').textContent = `${count} öğrenci listeleniyor`;
+
+            const list = document.getElementById('studentList');
+            const students = studentsData.filter(s => s.class === className).sort((a, b) => a.no - b.no);
+
+            list.innerHTML = `
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-max">
+                    <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-bold border-b border-slate-200 sticky top-0">
+                        <tr><th class="p-4 w-16 text-center">No</th><th class="p-4">Adı Soyadı</th><th class="p-4">2. Yab. Dil</th><th class="p-4">E-Posta</th><th class="p-4">Danışman</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white">
+                        ${students.map(student => `
+                        <tr class="hover:bg-indigo-50/30 transition student-item" data-name="${student.name.toLowerCase()}">
+                            <td class="p-4 font-mono font-bold text-slate-600 text-center bg-slate-50/50 border-r border-slate-100 sticky left-0">${student.no}</td>
+                            <td class="p-4 font-bold text-slate-800 whitespace-nowrap">${student.name}</td>
+                            <td class="p-4 whitespace-nowrap">${student.language && student.language !== "-" ? `<span class="px-2 py-1 rounded text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">${student.language}</span>` : '-'}</td>
+                            <td class="p-4 whitespace-nowrap text-sm">${student.email ? `<a href="mailto:${student.email}" class="text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1"><i class="fa-regular fa-envelope"></i> ${student.email}</a>` : '<span class="text-slate-400 italic">Yok</span>'}</td>
+                            <td class="p-4 whitespace-nowrap text-sm text-slate-600">${student.advisor || '-'}</td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>
+                ${students.length === 0 ? '<div class="p-8 text-center text-slate-400">Öğrenci bulunamadı.</div>' : ''}
+            </div>`;
+            document.querySelector('#sinifListesiPage .scroll-area').scrollTop = 0;
+        }
+
+        function resetToVeliClassGrid() {
+            currentView = 'classes';
+            document.getElementById('veliClassGrid').classList.remove('hidden');
+            document.getElementById('parentList').classList.add('hidden');
+            document.getElementById('veliFilterSection').classList.add('hidden');
+            document.getElementById('veliPageTitle').textContent = "Veli İletişim";
+            document.getElementById('veliPageSubtitle').textContent = "Şube seçimi yapınız";
+            renderClassGrid('veliClassGrid', parentsData, showVeliClassList); 
+        }
+
+        function showVeliClassList(className) {
+            currentView = 'parents';
+            document.getElementById('veliClassGrid').classList.add('hidden');
+            document.getElementById('parentList').classList.remove('hidden');
+            document.getElementById('veliFilterSection').classList.remove('hidden');
+            document.getElementById('veliPageTitle').textContent = `${className} Veli Listesi`;
+            const classParents = parentsData.filter(p => p.class === className);
+            document.getElementById('veliPageSubtitle').textContent = `${classParents.length} kayıt listeleniyor`;
+
+            const list = document.getElementById('parentList');
+            list.innerHTML = `
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-max">
+                    <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-bold border-b border-slate-200 sticky top-0">
+                        <tr><th class="p-4 w-16 text-center">No</th><th class="p-4">Öğrenci</th><th class="p-4">Veli (Yakınlık)</th><th class="p-4">Telefon</th><th class="p-4">E-Posta</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white">
+                        ${classParents.length > 0 ? classParents.map(parent => `
+                        <tr class="hover:bg-green-50/30 transition parent-item" data-name="${parent.studentName.toLowerCase()} ${parent.parentName.toLowerCase()}">
+                            <td class="p-4 font-mono font-bold text-slate-600 text-center bg-slate-50/50 border-r border-slate-100 sticky left-0">${parent.no}</td>
+                            <td class="p-4 font-bold text-slate-800 whitespace-nowrap">${parent.studentName}</td>
+                            <td class="p-4 whitespace-nowrap text-sm text-slate-700"><div class="font-semibold">${parent.parentName}</div><div class="text-xs text-slate-500">(${parent.relation})</div></td>
+                            <td class="p-4 whitespace-nowrap text-sm"><a href="tel:${parent.phone}" class="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg font-medium hover:bg-green-200 transition inline-flex items-center gap-2"><i class="fa-solid fa-phone text-xs"></i> ${parent.phone}</a></td>
+                            <td class="p-4 whitespace-nowrap text-sm">${parent.email ? `<a href="mailto:${parent.email}" class="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"><i class="fa-regular fa-envelope"></i> ${parent.email}</a>` : '-'}</td>
+                        </tr>`).join('') : `<tr><td colspan="5" class="p-8 text-center text-slate-400">Bu sınıf için veli verisi henüz yüklenmedi.</td></tr>`}
+                    </tbody>
+                </table>
+            </div>`;
+            document.querySelector('#veliIletisimPage .scroll-area').scrollTop = 0;
+        }
+
+        function renderClassGrid(containerId, dataSource, clickHandler) {
+            const grid = document.getElementById(containerId);
+            grid.innerHTML = "";
+            const classes = [...new Set(dataSource.map(s => s.class))].sort();
+
+            classes.forEach(cls => {
+                const btn = document.createElement('div');
+                let colorClass = "bg-white border-indigo-100 text-indigo-700 hover:bg-indigo-50";
+                let iconColor = "text-indigo-200";
+                
+                if(containerId === 'veliClassGrid') {
+                    colorClass = "bg-white border-green-100 text-green-700 hover:bg-green-50";
+                    iconColor = "text-green-200";
+                } else {
+                    if(cls.startsWith("8")) { colorClass = "bg-white border-orange-100 text-orange-700 hover:bg-orange-50"; iconColor = "text-orange-200"; }
+                    else if(cls.startsWith("7")) { colorClass = "bg-white border-purple-100 text-purple-700 hover:bg-purple-50"; iconColor = "text-purple-200"; }
+                    else if(cls.startsWith("6")) { colorClass = "bg-white border-teal-100 text-teal-700 hover:bg-teal-50"; iconColor = "text-teal-200"; }
+                    else if(cls.startsWith("5")) { colorClass = "bg-white border-blue-100 text-blue-700 hover:bg-blue-50"; iconColor = "text-blue-200"; }
+                }
+
+                btn.className = `${colorClass} border-2 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 shadow-sm transition active:scale-95 cursor-pointer h-40 relative overflow-hidden`;
+                btn.onclick = () => clickHandler(cls);
+                
+                const dataSet = containerId === 'veliClassGrid' ? parentsData : studentsData;
+                const count = dataSet.filter(s => s.class === cls).length;
+
+                btn.innerHTML = `
+                    <div class="absolute -right-4 -top-4 text-9xl ${iconColor} opacity-20 font-bold select-none pointer-events-none">${cls.split('/')[0]}</div>
+                    <span class="text-3xl font-bold z-10">${cls}</span>
+                    <span class="text-xs font-semibold bg-slate-100 px-3 py-1 rounded-full text-slate-500 z-10">${count} ${containerId === 'veliClassGrid' ? 'Veli' : 'Öğrenci'}</span>
+                `;
+                grid.appendChild(btn);
+            });
+        }
+
+        function filterStudents() {
+            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.student-item');
+            items.forEach(item => {
+                const name = item.getAttribute('data-name');
+                item.style.display = name.includes(searchTerm) ? 'table-row' : 'none';
+            });
+        }
+
+        function filterParents() {
+            const searchTerm = document.getElementById('parentSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.parent-item');
+            items.forEach(item => {
+                const name = item.getAttribute('data-name');
+                item.style.display = name.includes(searchTerm) ? 'table-row' : 'none';
+            });
+        }
+
+        function updateDate() {
+            const now = new Date();
+            document.getElementById('current-date').textContent = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('current-day').textContent = now.toLocaleDateString('tr-TR', { weekday: 'long' });
+        }
+        updateDate();
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById(modalId).classList.add('modal-open');
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('modal-open');
+        }
+        window.onclick = function(event) {
+            if (event.target.classList.contains('fixed') && !event.target.id.includes('Page')) {
+                event.target.classList.add('hidden');
+            }
+        }
+        function toggleInstallGuide() {
+            document.getElementById('installGuide').classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
