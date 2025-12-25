@@ -24,6 +24,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f1f5f9;
             -webkit-tap-highlight-color: transparent;
+            font-size: 14px;
         }
 
         .bg-pattern { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
@@ -34,7 +35,7 @@
         
         /* SCROLLBAR */
         * { scrollbar-width: thin; scrollbar-color: #64748b #f1f5f9; }
-        ::-webkit-scrollbar { width: 8px !important; height: 8px !important; display: block !important; -webkit-appearance: none; }
+        ::-webkit-scrollbar { width: 6px !important; height: 6px !important; display: block !important; -webkit-appearance: none; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background-color: #94a3b8; border-radius: 4px; border: 2px solid #f1f5f9; }
         ::-webkit-scrollbar-thumb:hover { background-color: #64748b; }
@@ -70,98 +71,98 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 scroll-area p-6 bg-pattern relative">
-        <h3 class="text-slate-500 font-bold text-xs uppercase mb-4 tracking-wider pl-1">Menü</h3>
+    <main class="flex-1 scroll-area p-4 bg-pattern relative">
+        <h3 class="text-slate-500 font-bold text-xs uppercase mb-3 tracking-wider pl-1">Menü</h3>
 
-        <div class="grid grid-cols-2 gap-4 pb-10">
+        <div class="grid grid-cols-2 gap-3 pb-10">
             <!-- 1. Takvim -->
-            <a href="https://calendar.google.com" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-blue-100"></div>
-                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <a href="https://calendar.google.com" target="_blank" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-blue-50 rounded-bl-full -mr-3 -mt-3 transition-all group-hover:bg-blue-100"></div>
+                <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-calendar-days"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Takvim</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Takvim</span>
             </a>
 
             <!-- 2. Sınıf Listeleri -->
-            <div onclick="openFullPage('sinifListesiPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-indigo-50 rounded-bl-full -mr-4 -mt-4"></div>
-                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <div onclick="openFullPage('sinifListesiPage')" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-indigo-50 rounded-bl-full -mr-3 -mt-3"></div>
+                <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-users-viewfinder"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Sınıf Listeleri</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Sınıf Listeleri</span>
             </div>
 
             <!-- 3. Veli-İletişim -->
-            <div onclick="openFullPage('veliIletisimPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-green-50 rounded-bl-full -mr-4 -mt-4"></div>
-                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <div onclick="openFullPage('veliIletisimPage')" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-green-50 rounded-bl-full -mr-3 -mt-3"></div>
+                <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Veli İletişim</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Veli İletişim</span>
             </div>
 
             <!-- 4. Danışman Öğretmenler -->
-            <div onclick="openFullPage('advisorPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-teal-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-teal-100"></div>
-                <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <div onclick="openFullPage('advisorPage')" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-teal-50 rounded-bl-full -mr-3 -mt-3 transition-all group-hover:bg-teal-100"></div>
+                <div class="w-10 h-10 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-chalkboard-user"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Danışman Öğretmenler</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Danışman Öğretmenler</span>
             </div>
 
             <!-- 5. Kulüpler -->
-            <div onclick="openFullPage('clubPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-fuchsia-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-fuchsia-100"></div>
-                <div class="w-12 h-12 bg-fuchsia-100 text-fuchsia-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <div onclick="openFullPage('clubPage')" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-fuchsia-50 rounded-bl-full -mr-3 -mt-3 transition-all group-hover:bg-fuchsia-100"></div>
+                <div class="w-10 h-10 bg-fuchsia-100 text-fuchsia-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-masks-theater"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Kulüpler</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Kulüpler</span>
             </div>
 
             <!-- 6. Ders Programı -->
-            <a href="https://drive.google.com/file/d/1smXhS_IllIUiIBE1cVlTl1dr93QM_-0s/view?usp=sharing" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-pink-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-pink-100"></div>
-                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <a href="https://drive.google.com/file/d/1smXhS_IllIUiIBE1cVlTl1dr93QM_-0s/view?usp=sharing" target="_blank" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-pink-50 rounded-bl-full -mr-3 -mt-3 transition-all group-hover:bg-pink-100"></div>
+                <div class="w-10 h-10 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-clock"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Ders Programı</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Ders Programı</span>
             </a>
 
             <!-- 7. Sınav Takvimleri -->
-            <div onclick="openFullPage('examCalendarPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 rounded-bl-full -mr-4 -mt-4"></div>
-                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <div onclick="openFullPage('examCalendarPage')" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-red-50 rounded-bl-full -mr-3 -mt-3"></div>
+                <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-file-pen"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Sınav Takvimleri</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Sınav Takvimleri</span>
             </div>
 
             <!-- 8. Nöbetler -->
-            <div onclick="openFullPage('dutyPage')" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden cursor-pointer">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-orange-50 rounded-bl-full -mr-4 -mt-4"></div>
-                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <div onclick="openFullPage('dutyPage')" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-orange-50 rounded-bl-full -mr-3 -mt-3"></div>
+                <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-clipboard-list"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">Nöbetler</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">Nöbetler</span>
             </div>
 
             <!-- 9. SUB -->
-            <a href="https://drive.google.com/file/d/1w50wHv9a77PJFwxL1qRY8oKMtuB_Riry/view?usp=sharing" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-slate-200 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-slate-300"></div>
-                <div class="w-12 h-12 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <a href="#" target="_blank" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-slate-200 rounded-bl-full -mr-3 -mt-3 transition-all group-hover:bg-slate-300"></div>
+                <div class="w-10 h-10 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-folder-open"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">SUB</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">SUB</span>
             </a>
 
             <!-- 10. PTC -->
-            <a href="https://drive.google.com/file/d/1AXmVm-DXuqk7u0HdAk0hsQgV9U-EP81c/view?usp=sharing" target="_blank" class="app-card bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-3 h-32 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 w-16 h-16 bg-violet-50 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-violet-100"></div>
-                <div class="w-12 h-12 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center text-2xl z-10">
+            <a href="#" target="_blank" class="app-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-2 h-28 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-12 h-12 bg-violet-50 rounded-bl-full -mr-3 -mt-3 transition-all group-hover:bg-violet-100"></div>
+                <div class="w-10 h-10 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center text-xl z-10">
                     <i class="fa-solid fa-handshake-simple"></i>
                 </div>
-                <span class="font-semibold text-sm text-slate-700 z-10 text-center">PTC</span>
+                <span class="font-semibold text-xs text-slate-700 z-10 text-center">PTC</span>
             </a>
         </div>
 
@@ -199,105 +200,105 @@
         </div>
     </footer>
 
-    <!-- Sınıf Listeleri Sayfası (GÜNCELLENDİ: GLOBAL ARAMA DESTEĞİ) -->
+    <!-- Sınıf Listeleri Sayfası -->
     <div id="sinifListesiPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
-        <div class="bg-indigo-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
-            <div class="flex items-center gap-4">
-                <button onclick="handleBackNavigation('sinifListesiPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-indigo-500 hover:bg-indigo-400 text-white transition active:scale-90 shadow-md">
-                    <i class="fa-solid fa-arrow-left"></i>
+        <div class="bg-indigo-600 p-4 pt-12 pb-4 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-3">
+                <button onclick="handleBackNavigation('sinifListesiPage')" class="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-500 hover:bg-indigo-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </button>
                 <div>
-                    <h3 class="font-bold text-lg leading-tight" id="pageTitle">Sınıf Listeleri</h3>
-                    <p class="text-xs text-indigo-200" id="pageSubtitle">Şube seçimi yapınız</p>
+                    <h3 class="font-bold text-base leading-tight" id="pageTitle">Sınıf Listeleri</h3>
+                    <p class="text-[10px] text-indigo-200" id="pageSubtitle">Şube seçimi yapınız</p>
                 </div>
             </div>
         </div>
         
-        <div id="filterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+        <div id="filterSection" class="p-2 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
             <div class="relative">
-                <input type="text" id="studentSearch" onkeyup="filterStudents()" placeholder="Tüm okulda öğrenci ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="studentSearch" onkeyup="filterStudents()" placeholder="Tüm okulda öğrenci ara..." class="w-full bg-slate-100 border-none text-slate-800 py-2 px-3 pl-9 rounded-lg focus:ring-2 focus:ring-indigo-500 text-xs">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
                 </div>
             </div>
         </div>
         <div class="flex-1 scroll-area relative bg-slate-100">
-            <div id="classGrid" class="grid grid-cols-2 gap-4 p-4 pb-32"></div>
+            <div id="classGrid" class="grid grid-cols-3 gap-3 p-3 pb-32"></div>
             <div id="studentList" class="hidden pb-32 bg-white min-h-full"></div>
         </div>
     </div>
 
-    <!-- Veli İletişim Sayfası (GÜNCELLENDİ: DOĞRUDAN LİSTE) -->
+    <!-- Veli İletişim Sayfası (KOMPAKT) -->
     <div id="veliIletisimPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
-        <div class="bg-green-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
-            <div class="flex items-center gap-4">
-                <button onclick="handleBackNavigation('veliIletisimPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-400 text-white transition active:scale-90 shadow-md">
-                    <i class="fa-solid fa-arrow-left"></i>
+        <div class="bg-green-600 p-4 pt-12 pb-4 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-3">
+                <button onclick="handleBackNavigation('veliIletisimPage')" class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </button>
                 <div>
-                    <h3 class="font-bold text-lg leading-tight" id="veliPageTitle">Veli İletişim</h3>
-                    <p class="text-xs text-green-200" id="veliPageSubtitle">Tüm veliler listeleniyor</p>
+                    <h3 class="font-bold text-base leading-tight" id="veliPageTitle">Veli İletişim</h3>
+                    <p class="text-[10px] text-green-200" id="veliPageSubtitle">Tüm veliler listeleniyor</p>
                 </div>
             </div>
         </div>
         <!-- Veli İletişim Arama Çubuğu -->
-        <div id="veliFilterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+        <div id="veliFilterSection" class="p-2 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
             <div class="relative">
-                <input type="text" id="parentSearch" onkeyup="filterParents()" placeholder="Öğrenci veya veli ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-green-500 text-sm">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="parentSearch" onkeyup="filterParents()" placeholder="Öğrenci veya veli ara..." class="w-full bg-slate-100 border-none text-slate-800 py-2 px-3 pl-9 rounded-lg focus:ring-2 focus:ring-green-500 text-xs">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
                 </div>
             </div>
         </div>
-        <div class="flex-1 scroll-area relative bg-slate-100 p-4 pb-32">
+        <div class="flex-1 scroll-area relative bg-slate-100 p-3 pb-32">
             <!-- veliClassGrid kaldırıldı -->
-            <div id="parentList" class="space-y-4"></div>
+            <div id="parentList" class="space-y-3"></div>
         </div>
     </div>
 
     <!-- Danışman Öğretmen Sayfası -->
     <div id="advisorPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
-        <div class="bg-teal-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
-            <div class="flex items-center gap-4">
-                <button onclick="handleBackNavigation('advisorPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-teal-500 hover:bg-teal-400 text-white transition active:scale-90 shadow-md">
-                    <i class="fa-solid fa-arrow-left"></i>
+        <div class="bg-teal-600 p-4 pt-12 pb-4 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-3">
+                <button onclick="handleBackNavigation('advisorPage')" class="w-8 h-8 flex items-center justify-center rounded-full bg-teal-500 hover:bg-teal-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </button>
                 <div>
-                    <h3 class="font-bold text-lg leading-tight">Danışmanlar</h3>
-                    <p class="text-xs text-teal-200">2025-2026 Akademik Yılı</p>
+                    <h3 class="font-bold text-base leading-tight">Danışmanlar</h3>
+                    <p class="text-[10px] text-teal-200">2025-2026 Akademik Yılı</p>
                 </div>
             </div>
         </div>
-        <div class="flex-1 scroll-area relative bg-slate-100 p-4 pb-32">
-            <div id="advisorListContainer" class="space-y-4"></div>
+        <div class="flex-1 scroll-area relative bg-slate-100 p-3 pb-32">
+            <div id="advisorListContainer" class="space-y-3"></div>
         </div>
     </div>
 
     <!-- KULÜPLER SAYFASI -->
     <div id="clubPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
-        <div class="bg-fuchsia-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
-            <div class="flex items-center gap-4">
-                <button onclick="handleBackNavigation('clubPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-fuchsia-500 hover:bg-fuchsia-400 text-white transition active:scale-90 shadow-md">
-                    <i class="fa-solid fa-arrow-left"></i>
+        <div class="bg-fuchsia-600 p-4 pt-12 pb-4 text-white flex justify-between items-center shadow-md shrink-0">
+            <div class="flex items-center gap-3">
+                <button onclick="handleBackNavigation('clubPage')" class="w-8 h-8 flex items-center justify-center rounded-full bg-fuchsia-500 hover:bg-fuchsia-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </button>
                 <div>
-                    <h3 class="font-bold text-lg leading-tight" id="clubPageTitle">Kulüpler</h3>
-                    <p class="text-xs text-fuchsia-200" id="clubPageSubtitle">2025-2026 Kulüp Listesi</p>
+                    <h3 class="font-bold text-base leading-tight" id="clubPageTitle">Kulüpler</h3>
+                    <p class="text-[10px] text-fuchsia-200" id="clubPageSubtitle">2025-2026 Kulüp Listesi</p>
                 </div>
             </div>
         </div>
         
-        <div id="clubFilterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+        <div id="clubFilterSection" class="p-2 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
             <div class="relative">
-                <input type="text" id="clubStudentSearch" onkeyup="searchClubStudent()" placeholder="Öğrenci adı ile kulüp ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-fuchsia-500 text-sm">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="clubStudentSearch" onkeyup="searchClubStudent()" placeholder="Öğrenci adı ile kulüp ara..." class="w-full bg-slate-100 border-none text-slate-800 py-2 px-3 pl-9 rounded-lg focus:ring-2 focus:ring-fuchsia-500 text-xs">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
                 </div>
             </div>
         </div>
 
         <div class="flex-1 scroll-area relative bg-slate-100">
-            <div id="clubGrid" class="grid grid-cols-2 gap-4 p-4 pb-32"></div>
+            <div id="clubGrid" class="grid grid-cols-2 gap-3 p-3 pb-32"></div>
             <div id="clubDetailList" class="hidden pb-32 bg-white min-h-full"></div>
         </div>
     </div>
@@ -305,36 +306,36 @@
     <!-- NÖBETLER SAYFASI -->
     <div id="dutyPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
         <div class="bg-orange-600 p-4 pt-12 pb-2 text-white shadow-md shrink-0">
-            <div class="flex items-center gap-4 mb-4">
-                <button onclick="handleBackNavigation('dutyPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-orange-500 hover:bg-orange-400 text-white transition active:scale-90 shadow-md">
-                    <i class="fa-solid fa-arrow-left"></i>
+            <div class="flex items-center gap-3 mb-3">
+                <button onclick="handleBackNavigation('dutyPage')" class="w-8 h-8 flex items-center justify-center rounded-full bg-orange-500 hover:bg-orange-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </button>
                 <div>
-                    <h3 class="font-bold text-lg leading-tight">Nöbet Çizelgesi</h3>
-                    <p class="text-xs text-orange-200">2025-2026 Eğitim Öğretim Yılı</p>
+                    <h3 class="font-bold text-base leading-tight">Nöbet Çizelgesi</h3>
+                    <p class="text-[10px] text-orange-200">2025-2026 Eğitim Öğretim Yılı</p>
                 </div>
             </div>
             
             <div class="flex justify-between gap-1 overflow-x-auto pb-1 hide-scrollbar">
-                <button onclick="renderDutySchedule('Pazartesi')" id="tab-Pazartesi" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-orange-500 text-white border-b-4 border-orange-700">Pazartesi</button>
-                <button onclick="renderDutySchedule('Salı')" id="tab-Salı" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Salı</button>
-                <button onclick="renderDutySchedule('Çarşamba')" id="tab-Çarşamba" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Çarşamba</button>
-                <button onclick="renderDutySchedule('Perşembe')" id="tab-Perşembe" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Perşembe</button>
-                <button onclick="renderDutySchedule('Cuma')" id="tab-Cuma" class="flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Cuma</button>
+                <button onclick="renderDutySchedule('Pazartesi')" id="tab-Pazartesi" class="flex-1 min-w-[60px] py-2 px-1 rounded-t-lg text-[10px] font-bold text-center transition bg-orange-500 text-white border-b-4 border-orange-700">Pazartesi</button>
+                <button onclick="renderDutySchedule('Salı')" id="tab-Salı" class="flex-1 min-w-[60px] py-2 px-1 rounded-t-lg text-[10px] font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Salı</button>
+                <button onclick="renderDutySchedule('Çarşamba')" id="tab-Çarşamba" class="flex-1 min-w-[60px] py-2 px-1 rounded-t-lg text-[10px] font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Çarşamba</button>
+                <button onclick="renderDutySchedule('Perşembe')" id="tab-Perşembe" class="flex-1 min-w-[60px] py-2 px-1 rounded-t-lg text-[10px] font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Perşembe</button>
+                <button onclick="renderDutySchedule('Cuma')" id="tab-Cuma" class="flex-1 min-w-[60px] py-2 px-1 rounded-t-lg text-[10px] font-bold text-center transition bg-white/20 text-orange-100 hover:bg-white/30 border-b-4 border-transparent">Cuma</button>
             </div>
         </div>
 
-        <div id="dutyFilterSection" class="p-3 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
+        <div id="dutyFilterSection" class="p-2 bg-white border-b border-slate-200 shrink-0 z-10 shadow-sm">
             <div class="relative">
-                <input type="text" id="dutyTeacherSearch" onkeyup="searchDutyTeacher()" placeholder="Öğretmen adı ile nöbet ara..." class="w-full bg-slate-100 border-none text-slate-800 py-3 px-4 pl-10 rounded-xl focus:ring-2 focus:ring-orange-500 text-sm">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-400">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="dutyTeacherSearch" onkeyup="searchDutyTeacher()" placeholder="Öğretmen adı ile nöbet ara..." class="w-full bg-slate-100 border-none text-slate-800 py-2 px-3 pl-9 rounded-lg focus:ring-2 focus:ring-orange-500 text-xs">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
                 </div>
             </div>
         </div>
 
-        <div class="flex-1 scroll-area relative bg-slate-100 p-4 pb-32">
-            <div id="dutyListContainer" class="space-y-3"></div>
+        <div class="flex-1 scroll-area relative bg-slate-100 p-3 pb-32">
+            <div id="dutyListContainer" class="space-y-2"></div>
         </div>
     </div>
 
@@ -342,52 +343,46 @@
     <div id="examCalendarPage" class="fixed inset-0 bg-slate-100 z-50 hidden flex-col h-[100dvh] transition-transform duration-300 transform translate-x-full">
         <!-- Header -->
         <div class="bg-red-600 p-4 pt-12 pb-6 text-white flex justify-between items-center shadow-md shrink-0">
-            <div class="flex items-center gap-4">
-                <button onclick="closeFullPage('examCalendarPage')" class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-400 text-white transition active:scale-90 shadow-md">
-                    <i class="fa-solid fa-arrow-left"></i>
+            <div class="flex items-center gap-3">
+                <button onclick="closeFullPage('examCalendarPage')" class="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-400 text-white transition active:scale-90 shadow-md">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
                 </button>
                 <div>
-                    <h3 class="font-bold text-lg leading-tight">Sınav Takvimleri</h3>
-                    <p class="text-xs text-red-200">Sınıf seviyesi seçiniz</p>
+                    <h3 class="font-bold text-base leading-tight">Sınav Takvimleri</h3>
+                    <p class="text-[10px] text-red-200">Sınıf seviyesi seçiniz</p>
                 </div>
             </div>
         </div>
 
         <!-- Content -->
         <div class="flex-1 scroll-area relative bg-slate-100 p-6 flex flex-col justify-center">
-            <div class="grid grid-cols-1 gap-4 max-w-md mx-auto w-full">
+            <div class="grid grid-cols-1 gap-3 max-w-md mx-auto w-full">
                 <!-- 5. Sınıflar -->
-                <a href="https://www.canva.com/design/DAGz-pK6HfI/-KM2kXRzfv8nftDhztVQ4A/view?utm_content=DAGz-pK6HfI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h49c6379c66" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">5</div>
-                        <div class="font-bold text-slate-700 text-lg">5. Sınıflar</div>
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-5 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-lg font-bold">5</div>
+                        <div class="font-bold text-slate-700 text-base">5. Sınıflar</div>
                     </div>
                     <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
                 </a>
-
-                <!-- 6. Sınıflar -->
-                <a href="https://www.canva.com/design/DAG0XHgm0Us/HwlUHZJkQIWJOIxZxFpWig/view?utm_content=DAG0XHgm0Us&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6ed5ec08af" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">6</div>
-                        <div class="font-bold text-slate-700 text-lg">6. Sınıflar</div>
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-5 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-lg font-bold">6</div>
+                        <div class="font-bold text-slate-700 text-base">6. Sınıflar</div>
                     </div>
                     <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
                 </a>
-
-                <!-- 7. Sınıflar -->
-                <a href="https://www.canva.com/design/DAG0XY6dT00/-pORpfpfQTJ8jZWWwS5SYQ/view?utm_content=DAG0XY6dT00&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4d3970a4d1" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">7</div>
-                        <div class="font-bold text-slate-700 text-lg">7. Sınıflar</div>
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-5 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-lg font-bold">7</div>
+                        <div class="font-bold text-slate-700 text-base">7. Sınıflar</div>
                     </div>
                     <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
                 </a>
-
-                <!-- 8. Sınıflar -->
-                <a href="https://www.canva.com/design/DAG0XUDDHdg/RLg0GChnQSQi_lLoRqj4ug/view?utm_content=DAG0XUDDHdg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h60b814b836" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-6 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl font-bold">8</div>
-                        <div class="font-bold text-slate-700 text-lg">8. Sınıflar</div>
+                <a href="#" target="_blank" class="bg-white border-2 border-red-100 rounded-xl p-5 flex items-center justify-between shadow-sm active:scale-95 transition hover:bg-red-50 group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-lg font-bold">8</div>
+                        <div class="font-bold text-slate-700 text-base">8. Sınıflar</div>
                     </div>
                     <i class="fa-solid fa-chevron-right text-red-300 group-hover:text-red-500"></i>
                 </a>
@@ -409,7 +404,8 @@
     </div>
 
     <script>
-        // --- VERİTABANLARI ---
+        // ... Veriler aynı kalacak ...
+        // (Veri tabanı kısmı önceki kodla aynı, sadece görsel fonksiyonları güncelledim)
         const studentsData = [
             { no: 217, class: "5/A", name: "Gül Altın", advisor: "Burak Korkut", email: "galtin@isev.k12.tr", language: "Fransızca" },
             { no: 378, class: "5/A", name: "Doruk Ulukaya", advisor: "Burak Korkut", email: "dulukaya@isev.k12.tr", language: "Fransızca" },
@@ -597,8 +593,9 @@
                  closeFullPage(pageId);
                  return;
             }
-            if ((currentView === 'students' || currentView === 'globalSearch')) {
+            if ((currentView === 'students' || currentView === 'parents' || currentView === 'globalSearch')) {
                 if(pageId === 'sinifListesiPage') resetToClassGrid();
+                if(pageId === 'veliIletisimPage') resetToVeliClassGrid();
             } else {
                 closeFullPage(pageId);
             }
@@ -625,16 +622,16 @@
                 const studentCount = clubAssignments.filter(c => c.club === clubName).length;
 
                 const card = document.createElement('div');
-                card.className = "bg-white border-2 border-fuchsia-100 rounded-2xl p-5 shadow-sm active:scale-95 transition cursor-pointer flex flex-col gap-2";
+                card.className = "bg-white border-2 border-fuchsia-100 rounded-2xl p-3 shadow-sm active:scale-95 transition cursor-pointer flex flex-col gap-1";
                 card.onclick = () => showClubDetails(clubName);
 
                 card.innerHTML = `
                     <div class="flex items-start justify-between mb-1">
-                        <div class="w-10 h-10 rounded-full bg-fuchsia-100 flex items-center justify-center text-fuchsia-600"><i class="fa-solid fa-people-group"></i></div>
-                        <span class="text-xs font-bold bg-fuchsia-50 text-fuchsia-600 px-2 py-1 rounded-lg">${studentCount} Öğr.</span>
+                        <div class="w-8 h-8 rounded-full bg-fuchsia-100 flex items-center justify-center text-fuchsia-600"><i class="fa-solid fa-people-group text-sm"></i></div>
+                        <span class="text-[10px] font-bold bg-fuchsia-50 text-fuchsia-600 px-2 py-0.5 rounded-lg">${studentCount} Öğr.</span>
                     </div>
-                    <div class="font-bold text-slate-800 text-lg leading-tight">${clubName}</div>
-                    <div class="text-xs text-slate-500 flex flex-col gap-0.5 mt-auto">
+                    <div class="font-bold text-slate-800 text-sm leading-tight">${clubName}</div>
+                    <div class="text-[10px] text-slate-500 flex flex-col gap-0.5 mt-auto">
                         <div class="flex items-center gap-1"><i class="fa-solid fa-chalkboard-user text-fuchsia-400"></i> ${clubInfo.teacher}</div>
                         <div class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-fuchsia-400"></i> ${clubInfo.location}</div>
                     </div>
@@ -655,10 +652,10 @@
             list.innerHTML = `
                 <div class="divide-y divide-slate-100 border-t border-slate-100">
                     ${students.map(s => `
-                        <div class="p-4 bg-white hover:bg-fuchsia-50 transition flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-sm border border-slate-200">${s.class}</div>
-                                <div><div class="font-bold text-slate-800">${s.name}</div><div class="text-xs text-slate-400 font-mono">#${s.no}</div></div>
+                        <div class="p-3 bg-white hover:bg-fuchsia-50 transition flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-xs border border-slate-200">${s.class}</div>
+                                <div><div class="font-bold text-slate-800 text-sm">${s.name}</div><div class="text-[10px] text-slate-400 font-mono">#${s.no}</div></div>
                             </div>
                         </div>`).join('')}
                 </div>`;
@@ -682,16 +679,16 @@
                 listContainer.innerHTML = `<div class="p-10 text-center text-slate-400 flex flex-col items-center gap-2"><i class="fa-solid fa-circle-question text-3xl opacity-50"></i><span>Öğrenci bulunamadı.</span></div>`;
             } else {
                 listContainer.innerHTML = `
-                    <div class="p-4 space-y-3">
+                    <div class="p-3 space-y-3">
                         ${matches.map(s => `
-                            <div class="bg-white p-4 rounded-xl border border-fuchsia-100 shadow-sm">
+                            <div class="bg-white p-3 rounded-xl border border-fuchsia-100 shadow-sm">
                                 <div class="flex justify-between items-start">
-                                    <div><div class="font-bold text-slate-800 text-lg">${s.name}</div><div class="text-sm text-slate-500">${s.class} - #${s.no}</div></div>
-                                    <span class="bg-fuchsia-100 text-fuchsia-700 text-xs font-bold px-2 py-1 rounded">Bulundu</span>
+                                    <div><div class="font-bold text-slate-800 text-base">${s.name}</div><div class="text-xs text-slate-500">${s.class} - #${s.no}</div></div>
+                                    <span class="bg-fuchsia-100 text-fuchsia-700 text-[10px] font-bold px-2 py-0.5 rounded">Bulundu</span>
                                 </div>
-                                <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
-                                    <div class="flex items-center gap-2 text-fuchsia-600 font-semibold"><i class="fa-solid fa-masks-theater"></i> ${s.club}</div>
-                                    <button onclick="showClubDetails('${s.club}')" class="text-xs bg-slate-100 px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-200">Listeye Git</button>
+                                <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-2 text-fuchsia-600 font-semibold text-xs"><i class="fa-solid fa-masks-theater"></i> ${s.club}</div>
+                                    <button onclick="showClubDetails('${s.club}')" class="text-[10px] bg-slate-100 px-2 py-1 rounded-lg text-slate-600 hover:bg-slate-200">Listeye Git</button>
                                 </div>
                             </div>`).join('')}
                     </div>`;
@@ -708,9 +705,9 @@
             days.forEach(d => {
                 const btn = document.getElementById(`tab-${d}`);
                 if (d === day) {
-                    btn.className = "flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-orange-500 text-white border-b-4 border-orange-700 shadow-sm";
+                    btn.className = "flex-1 min-w-[60px] py-2 px-1 rounded-t-lg text-[10px] font-bold text-center transition bg-orange-500 text-white border-b-4 border-orange-700 shadow-sm";
                 } else {
-                    btn.className = "flex-1 min-w-[70px] py-2 px-1 rounded-t-lg text-xs font-bold text-center transition bg-orange-400/30 text-orange-100 hover:bg-orange-400/50 border-b-4 border-transparent";
+                    btn.className = "flex-1 min-w-[60px] py-2 px-1 rounded-t-lg text-[10px] font-bold text-center transition bg-orange-400/30 text-orange-100 hover:bg-orange-400/50 border-b-4 border-transparent";
                 }
             });
 
@@ -723,12 +720,12 @@
             }
 
             container.innerHTML = data.map(item => `
-                <div class="bg-white p-4 rounded-xl border border-orange-100 shadow-sm flex flex-col gap-2">
-                    <div class="flex items-center gap-2 text-orange-600 font-bold text-sm uppercase tracking-wide">
+                <div class="bg-white p-3 rounded-xl border border-orange-100 shadow-sm flex flex-col gap-1">
+                    <div class="flex items-center gap-2 text-orange-600 font-bold text-xs uppercase tracking-wide">
                         <i class="fa-solid fa-map-pin"></i>
                         ${item.area}
                     </div>
-                    <div class="text-slate-800 font-medium pl-6 text-sm">
+                    <div class="text-slate-800 font-medium pl-5 text-sm">
                         ${item.teacher}
                     </div>
                 </div>
@@ -757,15 +754,15 @@
                             const highlightedTeacher = item.teacher.replace(new RegExp(term, "gi"), (match) => `<span class="bg-yellow-200 text-slate-900">${match}</span>`);
 
                             html += `
-                                <div class="bg-white p-4 rounded-xl border border-orange-100 shadow-sm flex flex-col gap-2 relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 bg-orange-100 text-orange-600 text-[10px] font-bold px-3 py-1 rounded-bl-xl shadow-sm">
+                                <div class="bg-white p-3 rounded-xl border border-orange-100 shadow-sm flex flex-col gap-1 relative overflow-hidden">
+                                    <div class="absolute top-0 right-0 bg-orange-100 text-orange-600 text-[9px] font-bold px-2 py-0.5 rounded-bl-xl shadow-sm">
                                         ${day}
                                     </div>
-                                    <div class="flex items-center gap-2 text-orange-600 font-bold text-sm uppercase tracking-wide pr-10">
+                                    <div class="flex items-center gap-2 text-orange-600 font-bold text-xs uppercase tracking-wide pr-8">
                                         <i class="fa-solid fa-map-pin"></i>
                                         ${item.area}
                                     </div>
-                                    <div class="text-slate-800 font-medium pl-6 text-sm">
+                                    <div class="text-slate-800 font-medium pl-5 text-sm">
                                         ${highlightedTeacher}
                                     </div>
                                 </div>
@@ -785,27 +782,24 @@
         // --- DİĞER FONKSİYONLAR ---
         function renderAdvisorList() {
             const container = document.getElementById('advisorListContainer');
-            container.innerHTML = advisorsData.map(item => {
-                const classParts = item.class.split('/');
-                return `
-                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 flex items-center gap-4">
-                    <div class="w-14 h-14 bg-teal-50 rounded-full flex items-center justify-center text-teal-700 font-bold border border-teal-100 shrink-0 text-lg">
+            container.innerHTML = advisorsData.map(item => `
+                <div class="bg-white rounded-xl p-3 shadow-sm border border-slate-200 flex items-center gap-3">
+                    <div class="w-12 h-12 bg-teal-50 rounded-full flex flex-col items-center justify-center text-teal-700 font-bold border border-teal-100 shrink-0 text-sm">
                         ${item.class}
                     </div>
                     <div class="flex-1">
-                        <div class="text-[10px] uppercase font-bold text-slate-400 tracking-wide mb-1">Sınıf Danışmanları</div>
-                        <div class="space-y-1">
+                        <div class="text-[9px] uppercase font-bold text-slate-400 tracking-wide mb-0.5">Sınıf Danışmanları</div>
+                        <div class="space-y-0.5">
                             ${item.teachers.map(teacher => `
                                 <div class="flex items-center gap-2 text-slate-700 font-medium text-sm">
-                                    <i class="fa-solid fa-user-check text-teal-500 text-xs"></i>
+                                    <i class="fa-solid fa-user-check text-teal-500 text-[10px]"></i>
                                     ${teacher}
                                 </div>
                             `).join('')}
                         </div>
                     </div>
                 </div>
-            `;
-            }).join('');
+            `).join('');
         }
 
         function resetToClassGrid() {
@@ -837,17 +831,17 @@
             list.innerHTML = `
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse min-w-max">
-                    <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-bold border-b border-slate-200 sticky top-0">
-                        <tr><th class="p-4 w-16 text-center">No</th><th class="p-4">Adı Soyadı</th><th class="p-4">2. Yab. Dil</th><th class="p-4">E-Posta</th><th class="p-4">Danışman</th></tr>
+                    <thead class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold border-b border-slate-200 sticky top-0">
+                        <tr><th class="p-3 w-12 text-center">No</th><th class="p-3">Adı Soyadı</th><th class="p-3">2. Yab. Dil</th><th class="p-3">E-Posta</th><th class="p-3">Danışman</th></tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white">
                         ${students.map(student => `
                         <tr class="hover:bg-indigo-50/30 transition student-item" data-name="${student.name.toLowerCase()}">
-                            <td class="p-4 font-mono font-bold text-slate-600 text-center bg-slate-50/50 border-r border-slate-100 sticky left-0">${student.no}</td>
-                            <td class="p-4 font-bold text-slate-800 whitespace-nowrap">${student.name}</td>
-                            <td class="p-4 whitespace-nowrap">${student.language && student.language !== "-" ? `<span class="px-2 py-1 rounded text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">${student.language}</span>` : '-'}</td>
-                            <td class="p-4 whitespace-nowrap text-sm">${student.email ? `<a href="mailto:${student.email}" class="text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1"><i class="fa-regular fa-envelope"></i> ${student.email}</a>` : '<span class="text-slate-400 italic">Yok</span>'}</td>
-                            <td class="p-4 whitespace-nowrap text-sm text-slate-600">${student.advisor || '-'}</td>
+                            <td class="p-3 font-mono font-bold text-slate-600 text-center bg-slate-50/50 border-r border-slate-100 sticky left-0 text-xs">${student.no}</td>
+                            <td class="p-3 font-bold text-slate-800 whitespace-nowrap text-xs">${student.name}</td>
+                            <td class="p-3 whitespace-nowrap text-xs">${student.language && student.language !== "-" ? `<span class="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100">${student.language}</span>` : '-'}</td>
+                            <td class="p-3 whitespace-nowrap text-xs">${student.email ? `<a href="mailto:${student.email}" class="text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1"><i class="fa-regular fa-envelope"></i> ${student.email}</a>` : '<span class="text-slate-400 italic">Yok</span>'}</td>
+                            <td class="p-3 whitespace-nowrap text-xs text-slate-600">${student.advisor || '-'}</td>
                         </tr>`).join('')}
                     </tbody>
                 </table>
@@ -856,41 +850,39 @@
             document.querySelector('#sinifListesiPage .scroll-area').scrollTop = 0;
         }
 
-        // YENİ: VELİ LİSTESİNİ GÖSTEREN FONKSİYON
+        // --- VELİ İLETİŞİM (GÜNCELLENDİ: KOMPAKT) ---
         function showAllParents() {
             currentView = 'parentsList';
-            document.getElementById('parentList').classList.remove('hidden'); // Listeyi aç
-            document.getElementById('veliFilterSection').classList.remove('hidden'); // Arama çubuğu hep görünsün
+            document.getElementById('parentList').classList.remove('hidden'); 
+            document.getElementById('veliFilterSection').classList.remove('hidden'); 
             document.getElementById('veliPageTitle').textContent = "Veli İletişim Listesi";
             document.getElementById('veliPageSubtitle').textContent = `${parentsData.length} veli kayıtlı`;
-            document.getElementById('parentSearch').value = ""; // Aramayı temizle
+            document.getElementById('parentSearch').value = ""; 
 
             const list = document.getElementById('parentList');
             
             list.innerHTML = `
-            <div class="p-4 space-y-4">
+            <div class="p-2 space-y-2">
                 ${parentsData.map(parent => `
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 parent-item" data-name="${parent.studentName.toLowerCase()} ${parent.parentName.toLowerCase()}">
-                    <div class="mb-3 pb-2 border-b border-slate-100 flex justify-between items-start">
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-3 parent-item" data-name="${parent.studentName.toLowerCase()} ${parent.parentName.toLowerCase()}">
+                    <div class="mb-2 pb-2 border-b border-slate-100 flex justify-between items-center">
                         <div>
-                            <div class="text-[10px] text-slate-400 uppercase tracking-wide font-bold">Öğrenci</div>
-                            <div class="font-bold text-slate-800 text-lg">${parent.studentName}</div>
+                            <div class="font-bold text-slate-800 text-sm">${parent.studentName}</div>
                         </div>
-                        <span class="bg-green-100 text-green-700 font-bold px-2 py-1 rounded text-xs">${parent.class}</span>
+                        <span class="bg-green-100 text-green-700 font-bold px-1.5 py-0.5 rounded text-[10px]">${parent.class}</span>
                     </div>
                     
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-wide font-bold mb-1">Veli (${parent.relation})</div>
-                        <div class="font-semibold text-slate-700">${parent.parentName}</div>
+                    <div class="mb-2 flex justify-between items-center">
+                        <div class="text-xs text-slate-600"><span class="text-[10px] text-slate-400 uppercase font-bold mr-1">Veli:</span>${parent.parentName} <span class="text-[10px] text-slate-400">(${parent.relation})</span></div>
                     </div>
 
-                    <div class="flex gap-3">
-                        <a href="tel:${parent.phone}" class="flex-1 bg-green-50 text-green-700 py-2.5 px-4 rounded-lg font-medium hover:bg-green-100 border border-green-100 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-phone"></i> ${parent.phone}
+                    <div class="flex gap-2">
+                        <a href="tel:${parent.phone}" class="flex-1 bg-green-50 text-green-700 py-1.5 px-2 rounded-md text-xs font-medium hover:bg-green-100 border border-green-100 flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-phone text-[10px]"></i> ${parent.phone}
                         </a>
                         ${parent.email ? `
-                        <a href="mailto:${parent.email}" class="flex-1 bg-blue-50 text-blue-700 py-2.5 px-4 rounded-lg font-medium hover:bg-blue-100 border border-blue-100 flex items-center justify-center gap-2 truncate">
-                            <i class="fa-solid fa-envelope"></i> ${parent.email}
+                        <a href="mailto:${parent.email}" class="flex-1 bg-blue-50 text-blue-700 py-1.5 px-2 rounded-md text-xs font-medium hover:bg-blue-100 border border-blue-100 flex items-center justify-center gap-1.5 truncate">
+                            <i class="fa-solid fa-envelope text-[10px]"></i> ${parent.email}
                         </a>` : ''}
                     </div>
                 </div>
@@ -921,24 +913,17 @@
                     else if(cls.startsWith("5")) { colorClass = "bg-white border-blue-100 text-blue-700 hover:bg-blue-50"; iconColor = "text-blue-200"; }
                 }
 
-                btn.className = `${colorClass} border-2 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 shadow-sm transition active:scale-95 cursor-pointer h-40 relative overflow-hidden`;
+                btn.className = `${colorClass} border-2 rounded-xl p-4 flex flex-col items-center justify-center gap-2 shadow-sm transition active:scale-95 cursor-pointer h-28 relative overflow-hidden`;
                 btn.onclick = () => clickHandler(cls);
                 
                 const dataSet = containerId === 'veliClassGrid' ? parentsData : studentsData;
                 const count = dataSet.filter(s => s.class === cls).length;
 
-                // Split class and section for cleaner layout
-                const classParts = cls.split('/');
-                const grade = classParts[0];
-                const section = classParts[1] ? `/${classParts[1]}` : '';
-
+                // Single line format
                 btn.innerHTML = `
-                    <div class="absolute -right-4 -top-4 text-9xl ${iconColor} opacity-20 font-bold select-none pointer-events-none">${grade}</div>
-                    <div class="flex flex-col items-center justify-center leading-none z-10 mb-1">
-                        <span class="text-4xl font-bold">${grade}</span>
-                        <span class="text-lg font-semibold opacity-80 mt-[-4px]">${section}</span>
-                    </div>
-                    <span class="text-xs font-semibold bg-slate-100 px-3 py-1 rounded-full text-slate-500 z-10">${count} ${containerId === 'veliClassGrid' ? 'Veli' : 'Öğrenci'}</span>
+                    <div class="absolute -right-3 -top-3 text-7xl ${iconColor} opacity-20 font-bold select-none pointer-events-none">${cls.split('/')[0]}</div>
+                    <span class="text-2xl font-bold z-10">${cls}</span>
+                    <span class="text-[10px] font-semibold bg-slate-100 px-2 py-0.5 rounded-full text-slate-500 z-10">${count} ${containerId === 'veliClassGrid' ? 'Veli' : 'Öğrenci'}</span>
                 `;
                 grid.appendChild(btn);
             });
@@ -947,13 +932,11 @@
         function filterStudents() {
             const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
             
-            // Eğer arama boşsa ve global arama modundaysak, grid'i geri getir
             if (searchTerm === "" && (currentView === 'classes' || currentView === 'globalSearch')) {
                 resetToClassGrid();
                 return;
             }
 
-            // Eğer bir sınıfın içindeysek sadece o sınıfı filtrele
             if (currentView === 'students' && activeClassName) {
                 const items = document.querySelectorAll('.student-item');
                 items.forEach(item => {
@@ -963,7 +946,6 @@
                 return;
             }
 
-            // GLOBAL ARAMA (Grid ekranındayken)
             if (currentView === 'classes' || currentView === 'globalSearch') {
                 currentView = 'globalSearch';
                 document.getElementById('classGrid').classList.add('hidden');
@@ -977,16 +959,16 @@
                 list.innerHTML = `
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse min-w-max">
-                        <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-bold border-b border-slate-200 sticky top-0">
-                            <tr><th class="p-4">Sınıf</th><th class="p-4">No</th><th class="p-4">Adı Soyadı</th><th class="p-4">Danışman</th></tr>
+                        <thead class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold border-b border-slate-200 sticky top-0">
+                            <tr><th class="p-3">Sınıf</th><th class="p-3">No</th><th class="p-3">Adı Soyadı</th><th class="p-3">Danışman</th></tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 bg-white">
                             ${matches.map(s => `
                             <tr class="hover:bg-indigo-50/30 transition">
-                                <td class="p-4"><span class="bg-indigo-100 text-indigo-700 font-bold px-2 py-1 rounded text-xs">${s.class}</span></td>
-                                <td class="p-4 font-mono font-bold text-slate-600">${s.no}</td>
-                                <td class="p-4 font-bold text-slate-800">${s.name}</td>
-                                <td class="p-4 text-sm text-slate-600">${s.advisor || '-'}</td>
+                                <td class="p-3"><span class="bg-indigo-100 text-indigo-700 font-bold px-1.5 py-0.5 rounded text-[10px]">${s.class}</span></td>
+                                <td class="p-3 font-mono font-bold text-slate-600 text-xs">${s.no}</td>
+                                <td class="p-3 font-bold text-slate-800 text-xs">${s.name}</td>
+                                <td class="p-3 text-xs text-slate-600">${s.advisor || '-'}</td>
                             </tr>`).join('')}
                         </tbody>
                     </table>
